@@ -1,23 +1,39 @@
 module simple_time
 
-import regex
-
 pub struct SimpleTime {
 	time u16
 }
 
 pub fn (time SimpleTime) str() string {
-	hour := time.time / 60
-	minute := time.time % 60
-	return '${hour:02}:${minute:02}:00'
+	h := time.time / 60
+	m := time.time % 60
+
+	return '${h:02}:${m:02}:00'
 }
 
-pub fn from(time_string string) SimpleTime {
-	mut re := regex.regex_opt(':') or { return SimpleTime{0}}
-	splitted_time := re.split(time_string)
+pub fn from(time_str string) SimpleTime {
+	splitted_str := time_str.split(':')
+	h := splitted_str[0].u16()
+	m := splitted_str[1].u16()
 
-	hour := splitted_time[0].u16()
-	minute := splitted_time[1].u16()
-	return SimpleTime{hour * 60 + minute}
+	assert 0 <= h && h < 24
+	assert 0 <= m && m < 60
+
+	return SimpleTime{h * 60 + m}
 }
 
+pub fn (t1 SimpleTime) + (t2 SimpleTime) SimpleTime {
+	return SimpleTime{t1.time + t2.time}
+}
+
+pub fn (t1 SimpleTime) - (t2 SimpleTime) SimpleTime {
+	return SimpleTime{t1.time - t2.time}
+}
+
+pub fn (t1 SimpleTime) < (t2 SimpleTime) bool {
+	return t1.time < t2.time
+}
+
+pub fn (t1 SimpleTime) == (t2 SimpleTime) bool {
+	return t1.time == t2.time
+}
