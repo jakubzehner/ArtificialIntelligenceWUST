@@ -16,8 +16,8 @@ pub fn from(time_str string) SimpleTime {
 	h := splitted_str[0].u16()
 	m := splitted_str[1].u16()
 
-	assert 0 <= h && h < 24
-	assert 0 <= m && m < 60
+	assert 0 <= h && h < 24, 'hour must be greater than or equal to 0 and less than 60'
+	assert 0 <= m && m < 60, 'minutes must be greater than or equal to 0 and less than 60'
 
 	return SimpleTime{h * 60 + m}
 }
