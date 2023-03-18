@@ -4,7 +4,6 @@ import coordinates
 import simple_time
 
 struct Row {
-	id         int
 	line       string
 	start_time simple_time.SimpleTime
 	end_time   simple_time.SimpleTime
