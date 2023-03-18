@@ -1,6 +1,6 @@
 module utils
 
-import coordinates
+import position
 import simple_time
 
 pub struct Row {
@@ -10,8 +10,8 @@ pub:
 	end_time   simple_time.SimpleTime
 	start_stop string
 	end_stop   string
-	start_cord coordinates.Coordinates
-	end_cord   coordinates.Coordinates
+	start_pos position.Position
+	end_pos   position.Position
 }
 
 pub struct Rows {

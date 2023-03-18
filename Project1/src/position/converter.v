@@ -1,4 +1,4 @@
-module coordinates
+module position
 
 import math
 import math.vec
@@ -30,9 +30,9 @@ fn convert_wgs84_to_position(lat f64, lon f64) (f64, f64) {
 // conversion from wgs84 geographic position to 3d cartesian position
 // https://stackoverflow.com/questions/1185408/converting-from-longitude-latitude-to-cartesian-coordinates
 fn convert_geographic_to_cartesian(lat f64, lon f64) vec.Vec3[f64] {
-	x := coordinates.center_radius * math.cos(lat) * math.cos(lon)
-	y := coordinates.center_radius * math.cos(lat) * math.sin(lon)
-	z := coordinates.center_radius * math.sin(lat)
+	x := position.center_radius * math.cos(lat) * math.cos(lon)
+	y := position.center_radius * math.cos(lat) * math.sin(lon)
+	z := position.center_radius * math.sin(lat)
 
 	return vec.vec3(x, y, z)
 }
@@ -41,11 +41,11 @@ fn convert_geographic_to_cartesian(lat f64, lon f64) vec.Vec3[f64] {
 // I always knew that earth is flat
 // https://www.baeldung.com/cs/3d-point-2d-plane
 fn project_3d_point_to_2d_plane(point vec.Vec3[f64]) (f64, f64) {
-	k := coordinates.normal_vec.dot(point) / coordinates.normal_vec.magnitude()
-	projected_point := point + coordinates.normal_vec.mul_scalar(k)
+	k := position.normal_vec.dot(point) / position.normal_vec.magnitude()
+	projected_point := point + position.normal_vec.mul_scalar(k)
 
-	x := projected_point.dot(coordinates.basis_vec_1)
-	y := projected_point.dot(coordinates.basis_vec_2)
+	x := projected_point.dot(position.basis_vec_1)
+	y := projected_point.dot(position.basis_vec_2)
 
 	return x, y
 }
