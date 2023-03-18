@@ -1,18 +1,17 @@
-// Jakub Zehner 2023
 module main
 
-import coordinates
-import math
+import utils
 
 fn main() {
-	//read_data()!
-	// println(math.radians(51.11038700))
-	// println(math.radians(17.03102025))
+	utils.read_csv('./data/connection_graph.csv')!
 
-	c0 := coordinates.from("51.11038700", "17.03102025")
-	println(c0)
+	// println(math.radians(51.11039187372915))
+	// println(math.radians(17.031028582538703))
 
-	c1 := coordinates.from("51.16042707", "17.12241711")
-	c2 := coordinates.from("51.16201253", "17.12469012")
-	println(c1.distance_to(c2))
+	// c0 := coordinates.from("51.11039187372915", "17.031028582538703")
+	// println(c0)
+	//
+	// c1 := coordinates.from("51.16042707", "17.12241711")
+	// c2 := coordinates.from("51.16201253", "17.12469012")
+	// println(c1.distance_to(c2))
 }

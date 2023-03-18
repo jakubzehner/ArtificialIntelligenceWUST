@@ -1,10 +1,9 @@
-// Jakub Zehner 2023
-module main
+module utils
 
-import simple_time
 import coordinates
+import simple_time
 
-struct Link {
+struct Row {
 	id         int
 	line       string
 	start_time simple_time.SimpleTime
@@ -13,4 +12,20 @@ struct Link {
 	end_stop   string
 	start_cord coordinates.Coordinates
 	end_cord   coordinates.Coordinates
+}
+
+pub struct Rows {
+mut:
+	rows []Row
+	idx  int
+}
+
+pub fn (mut iter Rows) next() ?Row {
+	if iter.idx >= iter.rows.len {
+		return none
+	}
+	defer {
+		iter.idx++
+	}
+	return iter.rows[iter.idx]
 }
