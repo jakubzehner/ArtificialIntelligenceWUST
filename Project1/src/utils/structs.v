@@ -3,7 +3,8 @@ module utils
 import coordinates
 import simple_time
 
-struct Row {
+pub struct Row {
+pub:
 	line       string
 	start_time simple_time.SimpleTime
 	end_time   simple_time.SimpleTime
