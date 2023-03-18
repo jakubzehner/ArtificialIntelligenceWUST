@@ -1,7 +1,7 @@
 module position
 
 import math
-import math.vec
+import math.vec { Vec3, vec3 }
 
 // center of Wrocław Market Square, latitude, longitude and Earth radius in these coordinates
 pub const (
@@ -13,7 +13,7 @@ pub const (
 // constants needed to calculate 2d cartesian position from coordinates
 // https://math.stackexchange.com/questions/2450745/finding-orthogonal-vectors-in-a-plane
 const (
-	std_vec     = vec.vec3(1.0, 0.0, 0.0)
+	std_vec     = vec3(1.0, 0.0, 0.0)
 	normal_vec  = convert_geographic_to_cartesian(center_lat, center_lon)
 	basis_vec_1 = convert_geographic_to_cartesian(center_lat, center_lon).cross(std_vec).unit()
 	basis_vec_2 = convert_geographic_to_cartesian(center_lat, center_lon).cross(basis_vec_1).unit()
@@ -29,18 +29,18 @@ fn convert_wgs84_to_position(lat f64, lon f64) (f64, f64) {
 
 // conversion from wgs84 geographic position to 3d cartesian position
 // https://stackoverflow.com/questions/1185408/converting-from-longitude-latitude-to-cartesian-coordinates
-fn convert_geographic_to_cartesian(lat f64, lon f64) vec.Vec3[f64] {
+fn convert_geographic_to_cartesian(lat f64, lon f64) Vec3[f64] {
 	x := position.center_radius * math.cos(lat) * math.cos(lon)
 	y := position.center_radius * math.cos(lat) * math.sin(lon)
 	z := position.center_radius * math.sin(lat)
 
-	return vec.vec3(x, y, z)
+	return vec3(x, y, z)
 }
 
 // projection 3d cartesian position to 2d position on a plane
 // I always knew that earth is flat
 // https://www.baeldung.com/cs/3d-point-2d-plane
-fn project_3d_point_to_2d_plane(point vec.Vec3[f64]) (f64, f64) {
+fn project_3d_point_to_2d_plane(point Vec3[f64]) (f64, f64) {
 	k := position.normal_vec.dot(point) / position.normal_vec.magnitude()
 	projected_point := point + position.normal_vec.mul_scalar(k)
 

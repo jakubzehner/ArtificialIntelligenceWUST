@@ -1,17 +1,17 @@
 module utils
 
-import position
-import simple_time
+import position { Position }
+import simple_time { SimpleTime }
 
 pub struct Row {
 pub:
 	line       string
-	start_time simple_time.SimpleTime
-	end_time   simple_time.SimpleTime
+	start_time SimpleTime
+	end_time   SimpleTime
 	start_stop string
 	end_stop   string
-	start_pos position.Position
-	end_pos   position.Position
+	start_pos  Position
+	end_pos    Position
 }
 
 pub struct Rows {

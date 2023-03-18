@@ -1,14 +1,14 @@
 module utils
 
-import simple_time { from }
+import simple_time
 import position
 
 fn parse_row(row_str string) Row {
 	row := row_str.split(',')
 
 	line := row[3]
-	start_time := from(row[4])
-	end_time := from(row[5])
+	start_time := simple_time.from(row[4])
+	end_time := simple_time.from(row[5])
 	start_stop := row[6].to_lower()
 	end_stop := row[7].to_lower()
 	start_pos := position.from(row[8], row[9])

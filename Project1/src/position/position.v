@@ -1,6 +1,6 @@
 module position
 
-import math.vec
+import math.vec { Vec2 }
 
 pub struct Position {
 	x f32
@@ -21,7 +21,7 @@ pub fn from(lat_str string, lon_str string) Position {
 	return Position{f32(x), f32(y)}
 }
 
-pub fn (pos Position) to_vector() vec.Vec2[f32] {
+pub fn (pos Position) to_vector() Vec2[f32] {
 	return vec.vec2(pos.x, pos.y)
 }
 
