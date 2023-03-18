@@ -24,3 +24,7 @@ pub fn from(lat_str string, lon_str string) Coordinates {
 pub fn (cord Coordinates) to_vector() vec.Vec2[f32] {
 	return vec.vec2(cord.x, cord.y)
 }
+
+pub fn (cord Coordinates) short_str() string {
+	return '${cord.x},${cord.y}'
+}

@@ -11,6 +11,10 @@ pub fn (time SimpleTime) str() string {
 	return '${h:02}:${m:02}:00'
 }
 
+pub fn (time SimpleTime) short_str() string {
+	return '${time.time}'
+}
+
 pub fn from(time_str string) SimpleTime {
 	splitted_str := time_str.split(':')
 	h := splitted_str[0].u16()
