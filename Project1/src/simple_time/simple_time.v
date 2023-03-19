@@ -31,7 +31,11 @@ pub fn (t1 SimpleTime) + (t2 SimpleTime) SimpleTime {
 }
 
 pub fn (t1 SimpleTime) - (t2 SimpleTime) SimpleTime {
-	return SimpleTime{t1.time - t2.time}
+	return if t1 > t2 {
+		SimpleTime{t1.time - t2.time}
+	} else {
+		SimpleTime{24 * 60 - (t2.time - t1.time)}
+	}
 }
 
 pub fn (t1 SimpleTime) < (t2 SimpleTime) bool {

@@ -6,7 +6,7 @@ import simple_time { SimpleTime }
 import position { Position }
 import math
 
-	pub const walking_speed = f32(4) / f32(60) // in km per minute
+pub const walking_speed = f32(4) / f32(60) // in km per minute
 
 pub struct Graph {
 	pos_to_name       map[string]string
@@ -90,10 +90,12 @@ pub fn build_graph(rows utils.Rows) Graph {
 		start := nodes[node_id]
 		other_positions := name_to_pos[pos_to_name[start.pos.short_str()]]
 		for other in other_positions {
-			if other == start.pos {continue}
+			if other == start.pos {
+				continue
+			}
 
 			next_time := start.find_next_other_position(other, times_of_pos)
-			end := Node {
+			end := Node{
 				pos: other
 				time: next_time
 			}
@@ -138,7 +140,7 @@ fn cached_walk_time(this_pos Position, walk_pos Position, mut cache map[string]S
 		return cache[cache_key]
 	}
 
-	walk_time := SimpleTime{u16(math.round(this_pos.distance_to(walk_pos) / walking_speed))}
+	walk_time := SimpleTime{u16(math.round(this_pos.distance_to(walk_pos) / graph.walking_speed))}
 
 	cache_key_alt := '${walk_pos};${this_pos}'
 	cache[cache_key] = walk_time
@@ -171,7 +173,7 @@ fn (node Node) find_next_other_position(pos Position, times map[string][]SimpleT
 	mut min := SimpleTime{1440}
 	mut next := SimpleTime{1440}
 
-	walk_time := SimpleTime{u16(math.round(node.pos.distance_to(pos) / walking_speed))}
+	walk_time := SimpleTime{u16(math.round(node.pos.distance_to(pos) / graph.walking_speed))}
 
 	for time in times[pos.short_str()] {
 		if time < min {
@@ -193,4 +195,5 @@ pub fn (graph Graph) stats() {
 	}
 	println('Nodes: ${graph.nodes.keys().len}')
 	println('Edges: ${edges_n}')
+	// println(graph)
 }

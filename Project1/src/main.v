@@ -4,7 +4,7 @@ import utils
 import graph
 
 fn main() {
-	rows := utils.read_csv('./data/connection_graph.csv')!
+	rows := utils.read_csv('./data/test_graph.csv')!
 	mpk_graph := graph.build_graph(rows)
 	mpk_graph.stats()
 
