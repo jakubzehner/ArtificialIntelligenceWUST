@@ -25,7 +25,7 @@ pub fn build_graph(rows utils.Rows) Graph {
 	mut nodes_to_id := map[string]int{}
 	mut name_to_pos := map[string][]Position{}
 	mut times_of_pos := map[string][]SimpleTime{}
-	mut time_need_to_walk_cache := map[string]SimpleTime{}
+	// mut time_need_to_walk_cache := map[string]SimpleTime{}
 
 	mut id := 0
 	next_id := fn [mut id] () int {
@@ -85,33 +85,26 @@ pub fn build_graph(rows utils.Rows) Graph {
 		edges[nodes_to_id[start_str]] << edge
 	}
 
-	// walking ???
-	exist_nodes_ids := nodes.keys()
-	for node_id in exist_nodes_ids {
-		this_node := nodes[node_id]
-		positions := name_to_pos[pos_to_name[this_node.pos.short_str()]]
-		for pos in positions {
-			if pos == this_node.pos {
-				continue
-			}
+	// walking v2
+	for node_id in nodes.keys() {
+		start := nodes[node_id]
+		other_positions := name_to_pos[pos_to_name[start.pos.short_str()]]
+		for other in other_positions {
+			if other == start.pos {continue}
 
-			walk_time := cached_walk_time(this_node.pos, pos, mut time_need_to_walk_cache)
-			end_time := this_node.time + walk_time
-			walk_node_id := next_id()
-			walk_node := Node{
-				pos: pos
-				time: end_time
+			next_time := start.find_next_other_position(other, times_of_pos)
+			end := Node {
+				pos: other
+				time: next_time
 			}
-			walk_edge := EdgeWalk{
+			end_node_id := nodes_to_id[end.short_str()]
+			edge := EdgeWalk{
 				start: node_id
-				end: walk_node_id
+				end: end_node_id
+				time: next_time - start.time
 			}
 
-			nodes[walk_node_id] = walk_node
-			edges[node_id] << walk_edge
-			name_to_nodes_ids[pos_to_name[pos.short_str()]] << walk_node_id
-			nodes_to_id[walk_node.short_str()] = walk_node_id
-			times_of_pos[pos.short_str()] << end_time
+			edges[node_id] << edge
 		}
 	}
 
@@ -145,9 +138,7 @@ fn cached_walk_time(this_pos Position, walk_pos Position, mut cache map[string]S
 		return cache[cache_key]
 	}
 
-	dist := this_pos.distance_to(walk_pos)
-	walk_minutes := dist / walking_speed
-	walk_time := SimpleTime{u16(math.round(walk_minutes))}
+	walk_time := SimpleTime{u16(math.round(this_pos.distance_to(walk_pos) / walking_speed))}
 
 	cache_key_alt := '${walk_pos};${this_pos}'
 	cache[cache_key] = walk_time
@@ -172,6 +163,25 @@ fn (node Node) find_next(times map[string][]SimpleTime) ?SimpleTime {
 	if node.time == t_next {
 		return none
 	}
+	// println('obecny czas: ${node.time}, nastepny: ${t_next}')
+	return t_next
+}
+
+fn (node Node) find_next_other_position(pos Position, times map[string][]SimpleTime) SimpleTime {
+	mut min := SimpleTime{1440}
+	mut next := SimpleTime{1440}
+
+	walk_time := SimpleTime{u16(math.round(node.pos.distance_to(pos) / walking_speed))}
+
+	for time in times[pos.short_str()] {
+		if time < min {
+			min = time
+		}
+		if time < next && time > node.time + walk_time {
+			next = time
+		}
+	}
+	t_next := if next == SimpleTime{1440} { min } else { next }
 	// println('obecny czas: ${node.time}, nastepny: ${t_next}')
 	return t_next
 }

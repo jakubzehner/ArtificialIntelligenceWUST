@@ -14,6 +14,7 @@ struct EdgeRide {
 struct EdgeWalk {
 	start int
 	end   int
+	time  SimpleTime
 }
 
 struct EdgeWait {
