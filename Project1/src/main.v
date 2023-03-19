@@ -1,9 +1,12 @@
 module main
 
 import utils
+import graph
 
 fn main() {
-	utils.read_csv('./data/connection_graph.csv')!
+	rows := utils.read_csv('./data/connection_graph.csv')!
+	mpk_graph := graph.build_graph(rows)
+	mpk_graph.stats()
 
 	// println(math.radians(51.11039187372915))
 	// println(math.radians(17.031028582538703))
