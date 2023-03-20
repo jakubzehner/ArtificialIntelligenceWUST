@@ -20,8 +20,8 @@ fn parse_row(row_str string, mut pos_cache map[string]Position) Row {
 	line := row[3]
 	start_time := simple_time.from(row[4])
 	end_time := simple_time.from(row[5])
-	start_stop := row[6].to_lower()
-	end_stop := row[7].to_lower()
+	start_stop := row[6]
+	end_stop := row[7]
 	start_pos := cached_position(row[8], row[9], mut pos_cache)
 	end_pos := cached_position(row[10], row[11], mut pos_cache)
 

@@ -1,6 +1,6 @@
 module graph
 
-import simple_time
+import simple_time { SimpleTime }
 import datatypes { MinHeap }
 import time
 
@@ -22,10 +22,17 @@ pub fn dijkstra(start string, end string, start_t string, g Graph) {
 	// println(node_id)
 	// println(g.nodes[node_id])
 	// println(g.pos_to_name[g.nodes[node_id].pos.short_str()])
-	dijkstra_alg(node_id, end, g)
+	path, cost, calc_t := dijkstra_alg(node_id, end, g)
+	simple_path := simplify_path(path)
+	// print_path(path.reverse(), g)
+	// println('-------------')
+	print_path(simple_path, g)
+	travel_time := SimpleTime{u16(cost)}
+	println('Travel time: ${travel_time.time_str()} (${travel_time.minutes()}min)')
+	eprintln('Runtime: ${calc_t}')
 }
 
-fn dijkstra_alg(start int, end string, g Graph) {
+fn dijkstra_alg(start int, end string, g Graph) ([]Edge, int, time.Duration) {
 	mut costs := map[int]int{}
 	mut travel_history := map[int]Edge{}
 	mut queue := MinHeap[HeapItem]{}
@@ -62,12 +69,9 @@ fn dijkstra_alg(start int, end string, g Graph) {
 		}
 	}
 
-	eprintln('Dijkstra time: ${time.now() - dijkstra_start_time}')
+	calculation_time := time.now() - dijkstra_start_time
 
-	println(destination)
-	if destination != -1 {
-		println(costs[destination])
-	}
+	final_cost := costs[destination]
 
 	mut path := []Edge{}
 
@@ -80,7 +84,7 @@ fn dijkstra_alg(start int, end string, g Graph) {
 		destination = edge.start
 	}
 
-	print_path(path.reverse(), g)
+	return path, final_cost, calculation_time
 }
 
 fn find_nearest_node(start string, start_t string, g Graph) int {
@@ -99,27 +103,4 @@ fn find_nearest_node(start string, start_t string, g Graph) int {
 
 fn reached_destination(node int, end string, g Graph) bool {
 	return g.pos_to_name[g.nodes[node].pos.short_str()] == end
-}
-
-fn print_path(path []Edge, g Graph) {
-	for edge in path {
-		match edge {
-			EdgeRide {
-				node_start := g.nodes[edge.start]
-				node_end := g.nodes[edge.end]
-
-				println('${'🚌':1} | ${edge.line:3} | ${node_start.time} - ${node_end.time} | ${g.pos_to_name[node_start.pos.short_str()]} -> ${g.pos_to_name[node_end.pos.short_str()]}')
-			}
-			EdgeWait {
-				node_start := g.nodes[edge.start]
-				node_end := g.nodes[edge.end]
-
-				println('${'⌛':1} | ${'':3} | ${node_start.time} - ${node_end.time} | ${g.pos_to_name[node_start.pos.short_str()]}')
-
-			}
-			EdgeWalk {
-
-			}
-		}
-	}
 }

@@ -105,7 +105,6 @@ pub fn build_graph(rows utils.Rows) Graph {
 			edge := EdgeWalk{
 				start: node_id
 				end: end_node_id
-				time: next_time - start.time
 			}
 
 			edges[node_id] << edge

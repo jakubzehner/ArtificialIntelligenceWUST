@@ -8,11 +8,19 @@ pub fn (time SimpleTime) str() string {
 	h := time.time / 60
 	m := time.time % 60
 
-	return '${h:02}:${m:02}:00'
+	return '${h:02}:${m:02}'
 }
 
 pub fn (time SimpleTime) short_str() string {
 	return '${time.time}'
+}
+
+pub fn (time SimpleTime) time_str() string {
+	return if time.time < 60 {
+		'${time.time}min'
+	} else {
+		'${time.time / 60}h ${time.time % 60}min'
+	}
 }
 
 pub fn from(time_str string) SimpleTime {
