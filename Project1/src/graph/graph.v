@@ -11,15 +11,15 @@ pub const walking_speed = f32(4) / f32(60) // in km per minute
 pub struct Graph {
 	pos_to_name       map[string]string
 	name_to_nodes_ids map[string][]int
-	edges             map[int][]Edge
-	nodes             map[int]Node
+	edges             [][]Edge
+	nodes             []Node
 }
 
 pub fn build_graph(rows utils.Rows) Graph {
 	mut pos_to_name := map[string]string{}
 	mut name_to_nodes_ids := map[string][]int{}
-	mut edges := map[int][]Edge{}
-	mut nodes := map[int]Node{}
+	mut edges := [][]Edge{cap: 1_400_000}
+	mut nodes := []Node{cap: 280_000}
 
 	// temporary data to speed up calculations
 	mut nodes_to_id := map[string]int{}
@@ -54,13 +54,15 @@ pub fn build_graph(rows utils.Rows) Graph {
 			node_id := next_id()
 			nodes_to_id[start_str] = node_id
 			name_to_nodes_ids[row.start_stop] << node_id
-			nodes[node_id] = start
+			nodes << start
+			edges << []Edge{}
 		}
 		if end_str !in nodes_to_id {
 			node_id := next_id()
 			nodes_to_id[end_str] = node_id
 			name_to_nodes_ids[row.end_stop] << node_id
-			nodes[node_id] = end
+			nodes << end
+			edges << []Edge{}
 		}
 
 		if start_pos_str !in pos_to_name {
@@ -81,11 +83,12 @@ pub fn build_graph(rows utils.Rows) Graph {
 			line: row.line
 		}
 
-		edges[nodes_to_id[start_str]] << edge
+		node_id := nodes_to_id[start_str]
+		edges[node_id] << edge
 	}
 
 	// walking v2
-	for node_id in nodes.keys() {
+	for node_id in 0 .. nodes.len {
 		start := nodes[node_id]
 		other_positions := name_to_pos[pos_to_name[start.pos.short_str()]]
 		for other in other_positions {
@@ -110,7 +113,7 @@ pub fn build_graph(rows utils.Rows) Graph {
 	}
 
 	// waiting
-	for node_id in nodes.keys() {
+	for node_id in 0 .. nodes.len {
 		start := nodes[node_id]
 		next_time := start.find_next(times_of_pos) or { continue }
 
@@ -174,9 +177,11 @@ fn (node Node) find_next_other_position(pos Position, times map[string][]SimpleT
 
 pub fn (graph Graph) stats() {
 	mut edges_n := 0
-	for node_id in graph.edges.keys() {
-		edges_n += graph.edges[node_id].len
+	for edge in graph.edges {
+		edges_n += edge.len
 	}
-	println('Nodes: ${graph.nodes.keys().len}')
+	println('Nodes: ${graph.nodes.len}')
 	println('Edges: ${edges_n}')
+
+	// println(graph.nodes[0])
 }
