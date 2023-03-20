@@ -8,4 +8,5 @@ fn main() {
 	mpk_graph := graph.build_graph(rows)
 	mpk_graph.stats()
 	graph.dijkstra('Kątna', 'Lubiatów', '12:41:00', mpk_graph)
+	graph.a_star_time('Kątna', 'Lubiatów', '12:41:00', mpk_graph)
 }

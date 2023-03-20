@@ -7,6 +7,7 @@ import position { Position }
 import math
 
 pub const walking_speed = f32(4) / f32(60) // in km per minute
+pub const travel_speed = f32(10) / f32(60) // in km per minute
 
 pub struct Graph {
 	pos_to_name       map[string]string
