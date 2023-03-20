@@ -25,7 +25,6 @@ pub fn build_graph(rows utils.Rows) Graph {
 	mut nodes_to_id := map[string]int{}
 	mut name_to_pos := map[string][]Position{}
 	mut times_of_pos := map[string][]SimpleTime{}
-	// mut time_need_to_walk_cache := map[string]SimpleTime{}
 
 	mut id := 0
 	next_id := fn [mut id] () int {
@@ -134,21 +133,6 @@ pub fn build_graph(rows utils.Rows) Graph {
 	return Graph{pos_to_name, name_to_nodes_ids, edges, nodes}
 }
 
-fn cached_walk_time(this_pos Position, walk_pos Position, mut cache map[string]SimpleTime) SimpleTime {
-	cache_key := '${this_pos};${walk_pos}'
-	if cache_key in cache {
-		return cache[cache_key]
-	}
-
-	walk_time := SimpleTime{u16(math.round(this_pos.distance_to(walk_pos) / graph.walking_speed))}
-
-	cache_key_alt := '${walk_pos};${this_pos}'
-	cache[cache_key] = walk_time
-	cache[cache_key_alt] = walk_time
-
-	return walk_time
-}
-
 fn (node Node) find_next(times map[string][]SimpleTime) ?SimpleTime {
 	mut min := SimpleTime{1440}
 	mut next := SimpleTime{1440}
@@ -195,5 +179,4 @@ pub fn (graph Graph) stats() {
 	}
 	println('Nodes: ${graph.nodes.keys().len}')
 	println('Edges: ${edges_n}')
-	// println(graph)
 }

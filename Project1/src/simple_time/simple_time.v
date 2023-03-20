@@ -26,6 +26,10 @@ pub fn from(time_str string) SimpleTime {
 	return SimpleTime{h * 60 + m}
 }
 
+pub fn (time SimpleTime) minutes() int {
+	return time.time
+}
+
 pub fn (t1 SimpleTime) + (t2 SimpleTime) SimpleTime {
 	return SimpleTime{t1.time + t2.time}
 }
