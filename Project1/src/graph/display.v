@@ -2,6 +2,11 @@ module graph
 
 import term
 
+fn show_path_result(path []Edge, g Graph) {
+	simple_path := simplify_path(path)
+	print_path(simple_path, g)
+}
+
 fn print_path(path []Edge, g Graph) {
 	for edge in path {
 		node_start := g.nodes[edge.start]

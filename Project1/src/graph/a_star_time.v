@@ -1,23 +1,7 @@
 module graph
 
 import time
-import simple_time { SimpleTime }
 import datatypes { MinHeap }
-import arrays
-import term
-
-pub fn a_star_time(start string, end string, start_t string, g Graph) {
-	node_id := find_nearest_node(start, start_t, g)
-	path, cost, calc_t := a_star_time_alg(node_id, end, g)
-	simple_path := simplify_path(path)
-	// print_path(path.reverse(), g)
-	// println('-------------')
-	println('A* time --- ${start} --> ${end}')
-	print_path(simple_path, g)
-	travel_time := SimpleTime{u16(cost)}
-	eprintln(term.gray('Cost: ${travel_time.time_str()} (${travel_time.minutes()} min)'))
-	eprintln(term.gray('Runtime: ${calc_t}'))
-}
 
 fn a_star_time_alg(start int, end string, g Graph) ([]Edge, int, time.Duration) {
 	mut costs := map[int]int{}
@@ -61,20 +45,4 @@ fn a_star_time_alg(start int, end string, g Graph) ([]Edge, int, time.Duration) 
 	path := reconstruct_path(start, destination, travel_history)
 
 	return path, final_cost, runtime
-}
-
-fn heuristic_1(curr int, ends []int, g Graph) int {
-	mut distances := []int{}
-	for end in ends {
-		distances << int(g.nodes[curr].pos.distance_to(g.nodes[end].pos) / travel_speed)
-	}
-	return arrays.min(distances) or {0}
-}
-
-fn heuristic_2(curr int, ends []int, g Graph) int {
-	mut distances := []int{}
-	for end in ends {
-		distances << int(g.nodes[curr].pos.distance_to(g.nodes[end].pos) * 20)
-	}
-	return arrays.min(distances) or {0}
 }

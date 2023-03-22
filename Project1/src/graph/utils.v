@@ -29,6 +29,14 @@ fn find_nearest_node(start string, start_t string, g Graph) int {
 	return id
 }
 
+fn check_if_name_exists(name string, g Graph) bool {
+	existence := name in g.name_to_nodes_ids
+	if !existence {
+		println('Stop: ${name} does not exist')
+	}
+	return existence
+}
+
 fn reached_destination(node int, end string, g Graph) bool {
 	return g.pos_to_name[g.nodes[node].pos.short_str()] == end
 }
@@ -41,10 +49,17 @@ fn reconstruct_path(start int, end int, travel_history map[int]Edge) []Edge {
 		if node_id == start {
 			break
 		}
-		edge := travel_history[node_id] or {break}
+		edge := travel_history[node_id] or { break }
 		path << edge
 		node_id = edge.start
 	}
 
 	return path
+}
+
+fn cost_name(cost Cost) string {
+	return match cost {
+		.t { 'time minimization' }
+		.p { 'transfers minimization' }
+	}
 }
