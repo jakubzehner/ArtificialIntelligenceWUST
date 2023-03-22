@@ -1,25 +1,25 @@
 module graph
 
 import time
-import simple_time { SimpleTime }
+// import simple_time
 import datatypes { MinHeap }
 import arrays
 import term
 
-pub fn a_star_time(start string, end string, start_t string, g Graph) {
+pub fn a_star_transfer(start string, end string, start_t string, g Graph) {
 	node_id := find_nearest_node(start, start_t, g)
-	path, cost, calc_t := a_star_time_alg(node_id, end, g)
+	path, cost, calc_t := a_star_transfer_alg(node_id, end, g)
 	simple_path := simplify_path(path)
 	// print_path(path.reverse(), g)
 	// println('-------------')
-	println('A* time --- ${start} --> ${end}')
+	println('A* transfer --- ${start} --> ${end}')
 	print_path(simple_path, g)
-	travel_time := SimpleTime{u16(cost)}
-	eprintln(term.gray('Cost: ${travel_time.time_str()} (${travel_time.minutes()} min)'))
+	word := if cost == 1 {'transfer'} else{'transfers'}
+	eprintln(term.gray('Cost: ${cost} ${word}'))
 	eprintln(term.gray('Runtime: ${calc_t}'))
 }
 
-fn a_star_time_alg(start int, end string, g Graph) ([]Edge, int, time.Duration) {
+fn a_star_transfer_alg(start int, end string, g Graph) ([]Edge, int, time.Duration) {
 	mut costs := map[int]int{}
 	mut travel_history := map[int]Edge{}
 	mut queue := MinHeap[HeapItem]{}
@@ -42,13 +42,30 @@ fn a_star_time_alg(start int, end string, g Graph) ([]Edge, int, time.Duration) 
 		}
 
 		for edge in g.edges[item.node] {
-			start_node := g.nodes[edge.start]
-			end_node := g.nodes[edge.end]
-			travel_cost := (end_node.time - start_node.time).minutes()
+			transfer := if item.node !in travel_history {
+				0
+			} else {
+				curr_edge := travel_history[item.node] or {EdgeWait{0, 0}}
+				match curr_edge {
+					EdgeRide{
+						match edge {
+							EdgeRide{
+								if curr_edge.line == edge.line {
+									0
+								} else {
+									1
+								}
+							}
+							else{1}
+						}
+					}
+					else{0}
+				}
+			}
 
-			next_cost := costs[item.node] + travel_cost
+			next_cost := costs[item.node] + transfer
 			if edge.end !in costs || next_cost < costs[edge.end] {
-				priority := next_cost + heuristic_1(edge.start, possible_end_nodes, g)
+				priority := next_cost * 8 + transfer_heuristic_1(edge.start, possible_end_nodes, g)
 				costs[edge.end] = next_cost
 				travel_history[edge.end] = edge
 				queue.insert(HeapItem{ cost: priority, node: edge.end })
@@ -63,18 +80,22 @@ fn a_star_time_alg(start int, end string, g Graph) ([]Edge, int, time.Duration) 
 	return path, final_cost, runtime
 }
 
-fn heuristic_1(curr int, ends []int, g Graph) int {
+fn disabled_heuristic(curr int, ends []int, g Graph) int {
+	return 0
+}
+
+fn transfer_heuristic_1(curr int, ends []int, g Graph) int {
 	mut distances := []int{}
 	for end in ends {
 		distances << int(g.nodes[curr].pos.distance_to(g.nodes[end].pos) / travel_speed)
 	}
-	return arrays.min(distances) or {0}
+	return arrays.min(distances) or { 0 }
 }
 
-fn heuristic_2(curr int, ends []int, g Graph) int {
+fn transfer_heuristic_2(curr int, ends []int, g Graph) int {
 	mut distances := []int{}
 	for end in ends {
 		distances << int(g.nodes[curr].pos.distance_to(g.nodes[end].pos) * 20)
 	}
-	return arrays.min(distances) or {0}
+	return arrays.min(distances) or { 0 }
 }

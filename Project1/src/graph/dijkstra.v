@@ -3,6 +3,7 @@ module graph
 import simple_time { SimpleTime }
 import datatypes { MinHeap }
 import time
+import term
 
 pub fn dijkstra(start string, end string, start_t string, g Graph) {
 	node_id := find_nearest_node(start, start_t, g)
@@ -13,10 +14,11 @@ pub fn dijkstra(start string, end string, start_t string, g Graph) {
 	simple_path := simplify_path(path)
 	// print_path(path.reverse(), g)
 	// println('-------------')
+	println('Dijkstra --- ${start} --> ${end}')
 	print_path(simple_path, g)
 	travel_time := SimpleTime{u16(cost)}
-	println('Travel time: ${travel_time.time_str()} (${travel_time.minutes()} min)')
-	eprintln('Runtime: ${calc_t}')
+	eprintln(term.gray('Cost: ${travel_time.time_str()} (${travel_time.minutes()} min)'))
+	eprintln(term.gray('Runtime: ${calc_t}'))
 }
 
 fn dijkstra_alg(start int, end string, g Graph) ([]Edge, int, time.Duration) {
@@ -57,19 +59,8 @@ fn dijkstra_alg(start int, end string, g Graph) ([]Edge, int, time.Duration) {
 	}
 
 	calculation_time := time.now() - dijkstra_start_time
-
 	final_cost := costs[destination]
-
-	mut path := []Edge{}
-
-	for {
-		if destination == start {
-			break
-		}
-		edge := travel_history[destination] or {break}
-		path << edge
-		destination = edge.start
-	}
+	path := reconstruct_path(start, destination, travel_history)
 
 	return path, final_cost, calculation_time
 }
