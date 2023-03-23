@@ -32,7 +32,7 @@ fn a_star_time_alg(start int, end string, g Graph) ([]Edge, int, time.Duration) 
 
 			next_cost := costs[item.node] + travel_cost
 			if edge.end !in costs || next_cost < costs[edge.end] {
-				priority := next_cost + heuristic_1(edge.start, possible_end_nodes, g)
+				priority := next_cost + used_heuristic(edge.start, possible_end_nodes, g)
 				costs[edge.end] = next_cost
 				travel_history[edge.end] = edge
 				queue.insert(HeapItem{ cost: priority, node: edge.end })

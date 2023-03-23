@@ -15,6 +15,10 @@ pub fn (pos Position) distance_to(other Position) f32 {
 	return pos.to_vector().distance(other.to_vector())
 }
 
+pub fn (pos Position) manhattan_distance_to(other Position) f32 {
+	return pos.to_vector().manhattan_distance(other.to_vector())
+}
+
 pub fn from(lat_str string, lon_str string) Position {
 	lat, lon := lat_str.f64(), lon_str.f64()
 	x, y := convert_wgs84_to_position(lat, lon)

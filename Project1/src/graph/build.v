@@ -5,6 +5,7 @@ import time
 import utils
 import simple_time { SimpleTime }
 import position { Position }
+import term
 
 pub fn build_graph(rows utils.Rows) Graph {
 	mut pos_to_name := map[string]string{}
@@ -121,7 +122,7 @@ pub fn build_graph(rows utils.Rows) Graph {
 		edges[node_id] << edge
 	}
 
-	println('Building graph time: ${time.now() - start_building_graph}')
+	println(term.gray('Building graph time: ${time.now() - start_building_graph}'))
 
 	return Graph{pos_to_name, name_to_nodes_ids, edges, nodes}
 }

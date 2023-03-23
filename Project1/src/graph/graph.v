@@ -56,6 +56,35 @@ pub fn a_star(start string, end string, start_time string, cost_function Cost, g
 	eprintln(term.gray('Runtime: ${runtime}'))
 }
 
+pub fn tabu_search (start string, stops []string, start_time string, cost_function Cost, g Graph) {
+	if !check_if_name_exists(start, g) {
+		return
+	}
+	for stop in stops {
+		if !check_if_name_exists(stop, g) {
+			return
+		}
+	}
+
+	start_id := find_nearest_node(start, start_time, g)
+
+	paths, cost, runtime, solution := match cost_function {
+		.t { tabu_search_time_alg(start_id, stops, g) }
+		.p { tabu_search_transfer_alg(start_id, stops, g) }
+	}
+
+	println('Tabu Search ${cost_name(cost_function)} -- ${start}, ${solution}')
+	for path in paths {
+		show_path_result(path, g)
+	}
+
+	match cost_function {
+		.t { eprintln(term.gray('Cost: ${SimpleTime{u16(cost)}.time_str()} (${cost} min)')) }
+		.p { eprintln(term.gray('Cost: ${cost} transfers')) }
+	}
+	eprintln(term.gray('Runtime: ${runtime}'))
+}
+
 pub fn (graph Graph) stats() {
 	mut edges_n := 0
 	for edge in graph.edges {

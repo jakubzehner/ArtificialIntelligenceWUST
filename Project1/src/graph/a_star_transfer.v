@@ -34,7 +34,7 @@ fn a_star_transfer_alg(start int, end string, g Graph) ([]Edge, int, time.Durati
 
 			next_cost := costs[item.node] + transfer
 			if edge.end !in costs || next_cost < costs[edge.end] {
-				priority := next_cost * 10 + transfer_heuristic_1(edge.start, possible_end_nodes, g)
+				priority := next_cost * 10 + used_heuristic(edge.start, possible_end_nodes, g)
 				costs[edge.end] = next_cost
 				travel_history[edge.end] = edge
 				queue.insert(HeapItem{ cost: priority, node: edge.end })
@@ -54,7 +54,7 @@ fn is_transfer(last_edge Edge, curr_edge Edge) int {
 		EdgeRide {
 			match curr_edge {
 				EdgeRide {
-					if curr_edge.line == curr_edge.line {
+					if last_edge.line == curr_edge.line {
 						0
 					} else {
 						1
