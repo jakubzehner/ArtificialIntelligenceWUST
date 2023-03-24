@@ -63,3 +63,12 @@ fn cost_name(cost Cost) string {
 		.p { 'transfers minimization' }
 	}
 }
+
+fn transfer_if_detected(from Edge, to Edge) int {
+	return if detect_transfer(from, to) { 1 } else { 0 }
+}
+
+fn detect_transfer(from Edge, to Edge) bool {
+	return (from is EdgeRide)
+		&& (to !is EdgeRide || (from as EdgeRide).line != (to as EdgeRide).line)
+}

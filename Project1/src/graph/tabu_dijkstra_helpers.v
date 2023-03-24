@@ -71,11 +71,8 @@ fn dijkstra_transfer_tabu(start int, end string, g Graph, last_travel Edge) ([]E
 		}
 
 		for next_edge in g.edges[current.node] {
-			transfer := if current.node !in travel_history {
-				0
-			} else {
-				is_transfer(travel_history[current.node] or { EdgeWait{0, 0} }, next_edge)
-			}
+			curr_edge := travel_history[current.node] or { dummy_edge }
+			transfer := transfer_if_detected(curr_edge, edge)
 
 			next_cost := current.cost + transfer
 			if next_edge.end !in costs || next_cost < costs[next_edge.end] {

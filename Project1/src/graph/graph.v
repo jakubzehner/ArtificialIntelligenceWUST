@@ -1,9 +1,7 @@
 module graph
 
-import term
 import simple_time { SimpleTime }
-
-pub const walking_speed = f32(4) / f32(60) // in km per minute
+import term
 
 pub enum Cost {
 	t

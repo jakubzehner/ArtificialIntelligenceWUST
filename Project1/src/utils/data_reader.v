@@ -1,9 +1,10 @@
 module utils
 
 import os
-import time
-import position { Position }
 import term
+import time
+
+import position { Position }
 
 pub fn read_csv(path string) !Rows {
 	mut pos_cache := map[string]Position{}
@@ -23,7 +24,6 @@ pub fn read_csv(path string) !Rows {
 	}
 
 	eprintln(term.gray('Csv parsing time: ${time.now() - start_parsing_file_time}'))
-	// eprintln('Loaded rows of data: ${rows.rows.len}')
 
 	return rows
 }

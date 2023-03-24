@@ -1,11 +1,14 @@
 module graph
 
 import math
-import time
-import utils
-import simple_time { SimpleTime }
-import position { Position }
 import term
+import time
+
+import position { Position }
+import simple_time { SimpleTime }
+import utils
+
+pub const walking_speed = f32(4) / f32(60) // in km per minute
 
 pub fn build_graph(rows utils.Rows) Graph {
 	mut pos_to_name := map[string]string{}

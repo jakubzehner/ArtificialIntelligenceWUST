@@ -13,9 +13,8 @@
 
 ## Mini projects:
 
-* **Optimization problem** - Finding shortest path between given stops and finding shortest cycle contains given stops on real data from MPK Wrocław (public transport) usign various cost functions
+* **Optimization problem** - Finding shortest path between given stops and finding shortest cycle contains given stops on real data from Wrocław public transport usign various cost functions
   * [Assigment (PL)](./docs/Lab_1_PL.pdf)
   * [Assigment (EN)](./docs/Lab_1_EN.pdf)
   * [Description](./Project1/README.md)
   * [Code](./Project1/src/)
-  * [Raport (PL)](./docs/) -- TODO
