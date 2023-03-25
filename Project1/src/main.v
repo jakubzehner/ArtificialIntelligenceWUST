@@ -7,7 +7,7 @@ import os
 fn main() {
 	rows := utils.read_csv('./data/connection_graph.csv')!
 	public_transport_graph := graph.build_graph(rows)
-	graph.dijkstra_test(public_transport_graph)
+	graph.test(public_transport_graph)
 	// user_interface(public_transport_graph)
 	// public_transport_graph.stats()
 	// Nodes: 272814
