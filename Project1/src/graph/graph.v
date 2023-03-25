@@ -3,7 +3,7 @@ module graph
 import simple_time { SimpleTime }
 import term
 
-pub enum Cost {
+pub enum CostSelector {
 	t
 	p
 }
@@ -15,7 +15,7 @@ pub struct Graph {
 	nodes             []Node
 }
 
-pub fn dijkstra(start string, end string, start_time string, cost_function Cost, g Graph) {
+pub fn dijkstra(start string, end string, start_time string, cost_function CostSelector, g Graph) {
 	if cost_function == .p {
 		println('Dijkstra ${cost_name(cost_function)} is not supported!')
 		return
@@ -26,6 +26,7 @@ pub fn dijkstra(start string, end string, start_time string, cost_function Cost,
 
 	println('Dijkstra ${cost_name(cost_function)} -- ${start} --> ${end}')
 	start_id := find_nearest_node(start, start_time, g)
+	println(start_id)
 
 	path, cost, runtime := dijkstra_alg(start_id, end, g)
 	show_path_result(path, g)
@@ -33,7 +34,7 @@ pub fn dijkstra(start string, end string, start_time string, cost_function Cost,
 	eprintln(term.gray('Runtime: ${runtime}'))
 }
 
-pub fn a_star(start string, end string, start_time string, cost_function Cost, g Graph) {
+pub fn a_star(start string, end string, start_time string, cost_function CostSelector, g Graph) {
 	if !check_if_name_exists(start, g) || !check_if_name_exists(end, g) {
 		return
 	}
@@ -54,7 +55,7 @@ pub fn a_star(start string, end string, start_time string, cost_function Cost, g
 	eprintln(term.gray('Runtime: ${runtime}'))
 }
 
-pub fn tabu_search (start string, stops []string, start_time string, cost_function Cost, g Graph) {
+pub fn tabu_search (start string, stops []string, start_time string, cost_function CostSelector, g Graph) {
 	if !check_if_name_exists(start, g) {
 		return
 	}

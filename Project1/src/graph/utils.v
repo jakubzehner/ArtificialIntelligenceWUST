@@ -4,7 +4,7 @@ import simple_time { SimpleTime }
 
 struct HeapItem {
 	cost int
-	node int
+	node_id int
 }
 
 fn (item1 HeapItem) < (item2 HeapItem) bool {
@@ -57,7 +57,7 @@ fn reconstruct_path(start int, end int, travel_history map[int]Edge) []Edge {
 	return path
 }
 
-fn cost_name(cost Cost) string {
+fn cost_name(cost CostSelector) string {
 	return match cost {
 		.t { 'time minimization' }
 		.p { 'transfers minimization' }

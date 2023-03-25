@@ -7,7 +7,8 @@ import os
 fn main() {
 	rows := utils.read_csv('./data/connection_graph.csv')!
 	public_transport_graph := graph.build_graph(rows)
-	user_interface(public_transport_graph)
+	graph.dijkstra_test(public_transport_graph)
+	// user_interface(public_transport_graph)
 	// public_transport_graph.stats()
 	// Nodes: 272814
 	// Edges: 1316764
@@ -106,7 +107,7 @@ fn read_start() (string, string) {
 	return start, time
 }
 
-fn pick_version() ?graph.Cost {
+fn pick_version() ?graph.CostSelector {
 	version := os.input('Podaj rodzaj funkcji kosztu (t/p): ')
 	return match version {
 		't' {
