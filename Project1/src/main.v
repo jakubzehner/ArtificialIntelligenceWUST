@@ -7,8 +7,7 @@ import os
 fn main() {
 	rows := utils.read_csv('./data/connection_graph.csv')!
 	public_transport_graph := graph.build_graph(rows)
-	graph.test(public_transport_graph)
-	// user_interface(public_transport_graph)
+	user_interface(public_transport_graph)
 	// public_transport_graph.stats()
 	// Nodes: 272814
 	// Edges: 1316764
@@ -79,13 +78,13 @@ fn user_interface(g graph.Graph) {
 				start, time := read_start()
 				end := os.input('Podaj przystanek końcowy: ')
 				version := pick_version() or { continue }
-				graph.dijkstra(start, end, time, version, g)
+				g.dijkstra(start, end, time, version)
 			}
 			'2' {
 				start, time := read_start()
 				end := os.input('Podaj przystanek końcowy: ')
 				version := pick_version() or { continue }
-				graph.a_star(start, end, time, version, g)
+				g.a_star(start, end, time, version)
 			}
 			'3' {
 				start, time := read_start()

@@ -2,6 +2,10 @@ module graph
 
 import term
 
+fn (g Graph) show_path_result(path []Edge) {
+	show_path_result(path, g)
+}
+
 fn show_path_result(path []Edge, g Graph) {
 	simple_path := simplify_path(path)
 	print_path(simple_path, g)

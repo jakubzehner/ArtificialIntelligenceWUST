@@ -3,23 +3,6 @@ module graph
 import datatypes { MinHeap }
 import time
 
-pub fn test(g Graph) {
-	cost_man := CostManager{
-		use_heuristic: false
-		heuristic: fn (_ int, _ []int, _ Graph) f64 {
-			return 0
-		}
-		cost_function: fn (from Edge, to Edge, g Graph) f64 {
-			return next_travel_time(g.nodes[from.end], g.nodes[to.end])
-		}
-	}
-
-	path, cost, _, _ := g.find_path(264198, 'Lubiatów', cost_man)
-
-	print_path(simplify_path(path), g)
-	println(cost)
-}
-
 struct CostManager {
 	use_heuristic bool
 	heuristic     fn (int, []int, Graph) f64
@@ -98,7 +81,7 @@ fn (g Graph) find_continuity_path(prev_edge Edge, end_name string, cost_manager 
 				transfers[next_edge.end] = transfers[curr.id] +
 					transfer_if_detected(curr_edge, next_edge)
 				travel_times[next_edge.end] = travel_times[curr.id] +
-					next_travel_time(g.nodes[curr.id], g.nodes[next_edge.end])
+					calculate_travel_time(g.nodes[curr.id], g.nodes[next_edge.end])
 				history[next_edge.end] = next_edge
 				queue.insert(NodePriority{ id: next_edge.end, priority: priority })
 			}
@@ -107,17 +90,4 @@ fn (g Graph) find_continuity_path(prev_edge Edge, end_name string, cost_manager 
 
 	println('Could not find path!')
 	return none
-}
-
-fn next_travel_time(from Node, to Node) int {
-	return (to.time - from.time).minutes()
-}
-
-fn transfer_if_detected(from Edge, to Edge) int {
-	return if detect_transfer(from, to) { 1 } else { 0 }
-}
-
-fn detect_transfer(from Edge, to Edge) bool {
-	return (from is EdgeRide)
-		&& (to !is EdgeRide || (from as EdgeRide).line != (to as EdgeRide).line)
 }

@@ -2,8 +2,21 @@ module graph
 
 import simple_time { SimpleTime }
 
+fn calculate_travel_time(from Node, to Node) int {
+	return (to.time - from.time).minutes()
+}
+
+fn transfer_if_detected(from Edge, to Edge) int {
+	return if detect_transfer(from, to) { 1 } else { 0 }
+}
+
+fn detect_transfer(from Edge, to Edge) bool {
+	return (from is EdgeRide)
+	&& (to !is EdgeRide || (from as EdgeRide).line != (to as EdgeRide).line)
+}
+
 struct HeapItem {
-	cost int
+	cost    int
 	node_id int
 }
 
@@ -13,6 +26,35 @@ fn (item1 HeapItem) < (item2 HeapItem) bool {
 
 fn (item1 HeapItem) == (item2 HeapItem) bool {
 	return item1.cost == item2.cost
+}
+
+fn (g Graph) check_if_name_exists(name string) bool {
+	existence := name in g.name_to_nodes_ids
+	if !existence {
+		println('Stop: ${name} does not exist')
+	}
+	return existence
+}
+
+fn (g Graph) find_nearest_node(start string, start_time string) ?int {
+	start_simple_time := simple_time.from(start_time)
+
+	mut id := -1
+	mut node_time := SimpleTime{1440}
+	for node_id in g.name_to_nodes_ids[start] {
+		node := g.nodes[node_id]
+		if node.time < node_time && node.time >= start_simple_time {
+			id = node_id
+			node_time = node.time
+		}
+	}
+
+	return if id != -1 {
+		id
+	} else {
+		eprintln('Could not find node for ${start} later than ${start_time}')
+		none
+	}
 }
 
 fn find_nearest_node(start string, start_t string, g Graph) int {

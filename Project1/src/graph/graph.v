@@ -15,47 +15,73 @@ pub struct Graph {
 	nodes             []Node
 }
 
-pub fn dijkstra(start string, end string, start_time string, cost_function CostSelector, g Graph) {
-	if cost_function == .p {
-		println('Dijkstra ${cost_name(cost_function)} is not supported!')
-		return
-	}
-	if !check_if_name_exists(start, g) || !check_if_name_exists(end, g) {
+pub fn (g Graph) dijkstra(start string, end string, start_time string, cost_choice CostSelector) {
+	if !g.check_if_name_exists(start) || !g.check_if_name_exists(end) {
 		return
 	}
 
-	println('Dijkstra ${cost_name(cost_function)} -- ${start} --> ${end}')
-	start_id := find_nearest_node(start, start_time, g)
-	println(start_id)
+	println('Dijkstra ${cost_name(cost_choice)} -- ${start} --> ${end}')
 
-	path, cost, runtime := dijkstra_alg(start_id, end, g)
-	show_path_result(path, g)
-	eprintln(term.gray('Cost: ${SimpleTime{u16(cost)}.time_str()} (${cost} min)'))
+	cost_manager := match cost_choice {
+		.t {
+			CostManager{
+				use_heuristic: false
+				heuristic: dummy_heuristic
+				cost_function: simple_time_cost
+			}
+		}
+		.p {
+			CostManager{
+				use_heuristic: false
+				heuristic: dummy_heuristic
+				cost_function: transfer_time_cost
+			}
+		}
+	}
+
+	start_id := g.find_nearest_node(start, start_time) or { return }
+	path, travel_time, transfers, runtime := g.find_path(start_id, end, cost_manager) or { return }
+
+	g.show_path_result(path)
+	eprintln(term.gray('Travel time: ${SimpleTime{u16(travel_time)}.time_str()} (${travel_time} min)'))
+	eprintln(term.gray('Transfers: ${transfers}'))
 	eprintln(term.gray('Runtime: ${runtime}'))
 }
 
-pub fn a_star(start string, end string, start_time string, cost_function CostSelector, g Graph) {
-	if !check_if_name_exists(start, g) || !check_if_name_exists(end, g) {
+pub fn (g Graph) a_star(start string, end string, start_time string, cost_choice CostSelector) {
+	if !g.check_if_name_exists(start) || !g.check_if_name_exists(end) {
 		return
 	}
 
-	println('A* ${cost_name(cost_function)} -- ${start} --> ${end}')
-	start_id := find_nearest_node(start, start_time, g)
+	println('A* ${cost_name(cost_choice)} -- ${start} --> ${end}')
 
-	path, cost, runtime := match cost_function {
-		.t { a_star_time_alg(start_id, end, g) }
-		.p { a_star_transfer_alg(start_id, end, g) }
+	cost_manager := match cost_choice {
+		.t {
+				CostManager{
+				use_heuristic: true
+				heuristic: heuristic_distance
+				cost_function: simple_time_cost
+			}
+		}
+		.p {
+				CostManager{
+				use_heuristic: true
+				heuristic: heuristic_distance
+				cost_function: transfer_penalty_time_cost
+			}
+		}
 	}
 
-	show_path_result(path, g)
-	match cost_function {
-		.t { eprintln(term.gray('Cost: ${SimpleTime{u16(cost)}.time_str()} (${cost} min)')) }
-		.p { eprintln(term.gray('Cost: ${cost} transfers')) }
-	}
+	start_id := g.find_nearest_node(start, start_time) or { return }
+	path, travel_time, transfers, runtime := g.find_path(start_id, end, cost_manager) or { return }
+
+	g.show_path_result(path)
+	eprintln(term.gray('Travel time: ${SimpleTime{u16(travel_time)}.time_str()} (${travel_time} min)'))
+	eprintln(term.gray('Transfers: ${transfers}'))
 	eprintln(term.gray('Runtime: ${runtime}'))
 }
 
-pub fn tabu_search (start string, stops []string, start_time string, cost_function CostSelector, g Graph) {
+pub fn tabu_search(start string, stops []string, start_time string, cost_function CostSelector, g Graph) {
 	if !check_if_name_exists(start, g) {
 		return
 	}
