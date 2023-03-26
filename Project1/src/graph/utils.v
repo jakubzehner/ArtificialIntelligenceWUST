@@ -2,6 +2,13 @@ module graph
 
 import simple_time { SimpleTime }
 
+fn cost_name(cost CostSelector) string {
+	return match cost {
+		.t { 'time minimization' }
+		.p { 'transfers minimization' }
+	}
+}
+
 fn calculate_travel_time(from Node, to Node) int {
 	return (to.time - from.time).minutes()
 }
@@ -97,11 +104,4 @@ fn reconstruct_path(start int, end int, travel_history map[int]Edge) []Edge {
 	}
 
 	return path
-}
-
-fn cost_name(cost CostSelector) string {
-	return match cost {
-		.t { 'time minimization' }
-		.p { 'transfers minimization' }
-	}
 }
