@@ -31,7 +31,9 @@ fn print_path(path []Edge, g Graph) {
 	}
 }
 
-fn simplify_path(path []Edge) []Edge {
+fn simplify_path(path_to_simplify []Edge) []Edge {
+	path := path_to_simplify.reverse()
+
 	if path.len <= 1 {
 		return path
 	}

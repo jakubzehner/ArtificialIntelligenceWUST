@@ -1,10 +1,10 @@
 module graph
 
 import math
-import term
-import time
 import position { Position }
 import simple_time { SimpleTime }
+import term
+import time
 import utils
 
 pub const walking_speed = f32(4) / f32(60) // in km per minute

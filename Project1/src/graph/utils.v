@@ -28,7 +28,7 @@ fn swap_elements(i int, j int, solution []string) []string {
 	return result
 }
 
-fn reconstruct_path(start int, end int, travel_history map[int]Edge) []Edge {
+fn reconstruct_path(start int, end int, history map[int]Edge) []Edge {
 	mut path := []Edge{}
 	mut node_id := end
 
@@ -36,12 +36,12 @@ fn reconstruct_path(start int, end int, travel_history map[int]Edge) []Edge {
 		if node_id == start {
 			break
 		}
-		edge := travel_history[node_id] or { break }
+		edge := history[node_id] or { break }
 		path << edge
 		node_id = edge.start
 	}
 
-	return path
+	return path.reverse()
 }
 
 fn (g Graph) check_if_name_exists(name string) bool {

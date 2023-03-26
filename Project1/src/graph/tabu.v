@@ -1,8 +1,8 @@
 module graph
 
-import time
 import math
 import rand
+import time
 
 const (
 	iterations_multiplier = 1
@@ -120,7 +120,7 @@ fn (g Graph) calculate_tabu_cost(start_id int, stops []string, cost_manager Cost
 
 	for stop in stops_complete {
 		path, travel_time, transfers, _ := g.find_continuity_path(previuos, stop, cost_manager)
-		previuos = path[0]
+		previuos = path.last()
 		total += match cost_selector {
 			.t {
 				travel_time
@@ -147,7 +147,7 @@ fn (g Graph) reconstruct_tabu_path(start_id int, stops []string, cost_manager Co
 
 	for stop in stops_complete {
 		path, travel_time, transfers, _ := g.find_continuity_path(previuos, stop, cost_manager)
-		previuos = path[0]
+		previuos = path.last()
 		total_travel_time += travel_time
 		total_transfers += transfers
 		full_path << path
