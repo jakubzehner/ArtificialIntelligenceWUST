@@ -3,7 +3,6 @@ module graph
 import math
 import term
 import time
-
 import position { Position }
 import simple_time { SimpleTime }
 import utils
@@ -154,7 +153,7 @@ fn (node Node) find_next_other_position(pos Position, times map[string][]SimpleT
 	mut min := SimpleTime{1440}
 	mut next := SimpleTime{1440}
 
-	walk_time := SimpleTime{u16(math.round(node.pos.distance_to(pos) / walking_speed))}
+	walk_time := SimpleTime{u16(math.round(node.pos.distance_to(pos) / graph.walking_speed))}
 
 	for time in times[pos.short_str()] {
 		if time < min {

@@ -44,7 +44,7 @@ fn (g Graph) find_continuity_path(prev_edge Edge, end_name string, cost_manager 
 	for queue.len() > 0 {
 		curr := queue.pop() or { break }
 
-		if reached_destination(curr.id, end_name, g) {
+		if g.reached_destination(curr.id, end_name) {
 			history.delete(start_id)
 			path := reconstruct_path(start_id, curr.id, history)
 			travel_time := travel_times[curr.id]

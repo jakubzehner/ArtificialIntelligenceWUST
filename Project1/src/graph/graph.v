@@ -57,14 +57,14 @@ pub fn (g Graph) a_star(start string, end string, start_time string, cost_choice
 
 	cost_manager := match cost_choice {
 		.t {
-				CostManager{
+			CostManager{
 				use_heuristic: true
 				heuristic: heuristic_distance
 				cost_function: simple_time_cost
 			}
 		}
 		.p {
-				CostManager{
+			CostManager{
 				use_heuristic: true
 				heuristic: heuristic_distance
 				cost_function: transfer_penalty_time_cost
@@ -81,7 +81,7 @@ pub fn (g Graph) a_star(start string, end string, start_time string, cost_choice
 	eprintln(term.gray('Runtime: ${runtime}'))
 }
 
-pub fn (g Graph)tabu_search(start string, stops []string, start_time string, cost_choice CostSelector) {
+pub fn (g Graph) tabu_search(start string, stops []string, start_time string, cost_choice CostSelector) {
 	if !g.check_if_name_exists(start) {
 		return
 	}
@@ -93,14 +93,14 @@ pub fn (g Graph)tabu_search(start string, stops []string, start_time string, cos
 
 	cost_manager := match cost_choice {
 		.t {
-				CostManager{
+			CostManager{
 				use_heuristic: false
 				heuristic: dummy_heuristic
 				cost_function: simple_time_cost
 			}
 		}
 		.p {
-				CostManager{
+			CostManager{
 				use_heuristic: false
 				heuristic: dummy_heuristic
 				cost_function: transfer_time_cost
@@ -109,7 +109,8 @@ pub fn (g Graph)tabu_search(start string, stops []string, start_time string, cos
 	}
 
 	start_id := g.find_nearest_node(start, start_time) or { return }
-	paths, travel_time, transfers, runtime, solution := g.knox(start_id, stops, cost_manager, cost_choice)
+	paths, travel_time, transfers, runtime, solution := g.knox(start_id, stops, cost_manager,
+		cost_choice)
 
 	println('Tabu Search ${cost_name(cost_choice)} -- ${start}, ${solution}')
 	for path in paths {
