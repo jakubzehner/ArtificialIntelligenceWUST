@@ -14,14 +14,6 @@ struct NodePriority {
 	priority f64
 }
 
-fn (node NodePriority) < (other NodePriority) bool {
-	return node.priority < other.priority
-}
-
-fn (node NodePriority) == (other NodePriority) bool {
-	return node.priority == other.priority
-}
-
 // Path finding algorithm implementation
 // Behaviour depends on CostManager which defines the cost function and the use of heuristics
 fn (g Graph) find_path(start_id int, end_name string, cost_manager CostManager) ?([]Edge, int, int, time.Duration) {
@@ -90,4 +82,12 @@ fn (g Graph) find_continuity_path(prev_edge Edge, end_name string, cost_manager 
 
 	println('Could not find path!')
 	return none
+}
+
+fn (node NodePriority) < (other NodePriority) bool {
+	return node.priority < other.priority
+}
+
+fn (node NodePriority) == (other NodePriority) bool {
+	return node.priority == other.priority
 }

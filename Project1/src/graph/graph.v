@@ -81,32 +81,42 @@ pub fn (g Graph) a_star(start string, end string, start_time string, cost_choice
 	eprintln(term.gray('Runtime: ${runtime}'))
 }
 
-pub fn tabu_search(start string, stops []string, start_time string, cost_function CostSelector, g Graph) {
-	if !check_if_name_exists(start, g) {
+pub fn (g Graph)tabu_search(start string, stops []string, start_time string, cost_choice CostSelector) {
+	if !g.check_if_name_exists(start) {
 		return
 	}
 	for stop in stops {
-		if !check_if_name_exists(stop, g) {
+		if !g.check_if_name_exists(stop) {
 			return
 		}
 	}
 
-	start_id := find_nearest_node(start, start_time, g)
-
-	paths, cost, runtime, solution := match cost_function {
-		.t { tabu_search_time_alg(start_id, stops, g) }
-		.p { tabu_search_transfer_alg(start_id, stops, g) }
+	cost_manager := match cost_choice {
+		.t {
+				CostManager{
+				use_heuristic: false
+				heuristic: dummy_heuristic
+				cost_function: simple_time_cost
+			}
+		}
+		.p {
+				CostManager{
+				use_heuristic: false
+				heuristic: dummy_heuristic
+				cost_function: transfer_time_cost
+			}
+		}
 	}
 
-	println('Tabu Search ${cost_name(cost_function)} -- ${start}, ${solution}')
+	start_id := g.find_nearest_node(start, start_time) or { return }
+	paths, travel_time, transfers, runtime, solution := g.knox(start_id, stops, cost_manager, cost_choice)
+
+	println('Tabu Search ${cost_name(cost_choice)} -- ${start}, ${solution}')
 	for path in paths {
-		show_path_result(path, g)
+		g.show_path_result(path)
 	}
-
-	match cost_function {
-		.t { eprintln(term.gray('Cost: ${SimpleTime{u16(cost)}.time_str()} (${cost} min)')) }
-		.p { eprintln(term.gray('Cost: ${cost} transfers')) }
-	}
+	eprintln(term.gray('Travel time: ${SimpleTime{u16(travel_time)}.time_str()} (${travel_time} min)'))
+	eprintln(term.gray('Transfers: ${transfers}'))
 	eprintln(term.gray('Runtime: ${runtime}'))
 }
 

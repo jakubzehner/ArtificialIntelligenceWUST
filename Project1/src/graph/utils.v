@@ -22,6 +22,12 @@ fn detect_transfer(from Edge, to Edge) bool {
 	&& (to !is EdgeRide || (from as EdgeRide).line != (to as EdgeRide).line)
 }
 
+fn swap_elements(i int, j int, solution []string) []string {
+	mut result := solution.clone()
+	result[i], result[j] = result[j], result[i]
+	return result
+}
+
 struct HeapItem {
 	cost    int
 	node_id int

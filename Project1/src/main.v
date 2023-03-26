@@ -90,7 +90,7 @@ fn user_interface(g graph.Graph) {
 				start, time := read_start()
 				list := os.input('Podaj listę przystanków do odwiedzenia (oddzielonych ;): ')
 				version := pick_version() or { continue }
-				graph.tabu_search(start, list.split(';'), time, version, g)
+				g.tabu_search(start, list.split(';'), time, version)
 			}
 			else {
 				println('Nieprawidłowy wybór')
