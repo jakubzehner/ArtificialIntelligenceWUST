@@ -9,6 +9,7 @@ import utils
 
 pub const walking_speed = f32(4) / f32(60) // in km per minute
 
+//TODO: refactor and optimize
 pub fn build_graph(rows utils.Rows) Graph {
 	mut pos_to_name := map[string]string{}
 	mut name_to_nodes_ids := map[string][]int{}

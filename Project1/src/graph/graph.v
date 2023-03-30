@@ -121,6 +121,7 @@ pub fn (g Graph) tabu_search(start string, stops []string, start_time string, co
 	eprintln(term.gray('Runtime: ${runtime}'))
 }
 
+//TODO: remove after graph builder refactor
 pub fn (graph Graph) stats() {
 	mut edges_n := 0
 	for edge in graph.edges {
