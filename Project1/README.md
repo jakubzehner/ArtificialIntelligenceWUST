@@ -13,7 +13,7 @@ In root directory run:
 ```sh
 v run .
 ```
-It will build and run project extremely fast, but without any optymalizations, so it will run painfully slow *(still faster than python solutions 😎)*.
+It will build and run project extremely fast, but without any optimizations, so it will run painfully slow *(still faster than python solutions 😎)*.
 
 For well optimize build run in root directory:
 ```sh
