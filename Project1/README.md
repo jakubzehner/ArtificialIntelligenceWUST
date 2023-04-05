@@ -30,5 +30,5 @@ When run, program will load data from hardcoded path _data/connection_graph.csv_
 Then user will be asked to choose algorithm and provide required data.
 You will need to provide **entirely correct** stop names, program is **case-sensitive**. You can find stop names in data - _connection_graph.csv_
 
-For example:
+For example:  
 ![example](./docs/example.png)
