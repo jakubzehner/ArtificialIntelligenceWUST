@@ -10,34 +10,33 @@ fn main() {
 	user_interface(public_transport_graph)
 }
 
-//TODO: refactor and switch to English
 fn user_interface(g graph.Graph) {
 	for {
+		println('Available algorithms:')
 		println('1. Dijkstra')
 		println('2. A*')
 		println('3. Tabu Search')
-		alg := os.input('Wybierz algorytm: ')
-		match alg {
+		match os.input('Choose algorithm [1/2/3]: ') {
 			'1' {
 				start, time := read_start()
-				end := os.input('Podaj przystanek końcowy: ')
+				end := os.input('End stop: ')
 				version := pick_version() or { continue }
 				g.dijkstra(start, end, time, version)
 			}
 			'2' {
 				start, time := read_start()
-				end := os.input('Podaj przystanek końcowy: ')
+				end := os.input('End stop: ')
 				version := pick_version() or { continue }
 				g.a_star(start, end, time, version)
 			}
 			'3' {
 				start, time := read_start()
-				list := os.input('Podaj listę przystanków do odwiedzenia (oddzielonych ;): ')
+				list := os.input('Stops list [separated with ;]: ')
 				version := pick_version() or { continue }
 				g.tabu_search(start, list.split(';'), time, version)
 			}
 			else {
-				println('Nieprawidłowy wybór')
+				println('Incorrect choice')
 				continue
 			}
 		}
@@ -45,13 +44,13 @@ fn user_interface(g graph.Graph) {
 }
 
 fn read_start() (string, string) {
-	start := os.input('Podaj przystanek początkowy: ')
-	time := os.input('Podaj czas na przystanku początkowym (w formacie 00:00:00): ')
+	start := os.input('Start stop: ')
+	time := os.input('Start time [HH:mm]: ')
 	return start, time
 }
 
 fn pick_version() ?graph.CostSelector {
-	version := os.input('Podaj rodzaj funkcji kosztu (t/p): ')
+	version := os.input('Cost function (t - time, p - transfers) [t/p]: ')
 	return match version {
 		't' {
 			.t
@@ -60,7 +59,7 @@ fn pick_version() ?graph.CostSelector {
 			.p
 		}
 		else {
-			println('Nieprawidłowy wybór')
+			println('Incorrect choice')
 			none
 		}
 	}
