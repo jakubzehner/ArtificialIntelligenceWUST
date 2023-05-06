@@ -1,5 +1,9 @@
 module main
 
+import reversi
+
 fn main() {
-	println('Hello World!')
+	mut game := reversi.clean_start()
+
+	game.test()
 }
