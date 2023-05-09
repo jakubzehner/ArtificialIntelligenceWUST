@@ -15,7 +15,7 @@ struct Board {
 	black Bitboard
 }
 
-fn board_from(input []string) Board {
+fn board_from(str []string) Board {
 	// TODO
 	return Board{}
 }

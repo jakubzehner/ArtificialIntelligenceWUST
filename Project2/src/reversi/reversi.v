@@ -1,5 +1,7 @@
 module reversi
 
+import math.bits
+
 struct Reversi {
 	board  Board
 	player Player
@@ -30,10 +32,17 @@ pub fn test() {
 	// print_bitboard(rev.white_potential_moves())
 	print_bitboard(rev.potential_moves())
 	println(rev.potential_moves_list())
+
+	println(rev.points())
+	println(rev.is_game_over())
 }
 
 pub fn clean_start() Reversi {
 	return Reversi{board_start(), Player.black}
+}
+
+pub fn from(str []string, start_player Player) Reversi {
+	return Reversi{board_from(str), start_player}
 }
 
 pub fn (rev Reversi) potential_moves() Bitboard {
@@ -77,4 +86,28 @@ pub fn (rev Reversi) skip_turn() Reversi {
 	}
 
 	return Reversi{rev.board, opponent(rev.player)}
+}
+
+pub fn (rev Reversi) points() (int, int) {
+	return bits.ones_count_64(rev.board.white), bits.ones_count_64(rev.board.black)
+}
+
+pub fn (rev Reversi) is_game_over() bool {
+	return !has_move(rev.board.white, rev.board.black)
+		&& !has_move(rev.board.black, rev.board.white)
+}
+
+pub fn (rev Reversi) result() Result {
+	if !rev.is_game_over() {
+		eprintln('Picking a winner makes no sense if the game is not over!')
+	}
+
+	points_white, points_black := rev.points()
+	return if points_white > points_black {
+		Result.white_winner
+	} else if points_black > points_white {
+		Result.black_winner
+	} else {
+		Result.draw
+	}
 }
