@@ -1,7 +1,9 @@
 module main
 
 import reversi
+import ai
 
 fn main() {
-	reversi.test()
+	// reversi.test()
+	ai.test()
 }

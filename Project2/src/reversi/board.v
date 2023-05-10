@@ -1,5 +1,7 @@
 module reversi
 
+import math.bits
+
 // Bitboard implementation based on:
 // https://github.com/brian112358/gpu-othello
 type Bitboard = u64
@@ -30,6 +32,10 @@ fn (board Board) occupied() Bitboard {
 
 fn (board Board) empty() Bitboard {
 	return ~u64(board.occupied())
+}
+
+fn (board Board) points() (int, int) {
+	return bits.ones_count_64(board.white), bits.ones_count_64(board.black)
 }
 
 fn has_move(current Bitboard, opponent Bitboard) bool {

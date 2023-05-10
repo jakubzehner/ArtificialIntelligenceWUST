@@ -5,7 +5,7 @@ pub enum Player {
 	black
 }
 
-fn opponent(player Player) Player {
+fn (player Player) opponent() Player {
 	return match player {
 		.white { .black }
 		.black { .white }

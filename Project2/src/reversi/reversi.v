@@ -1,8 +1,6 @@
 module reversi
 
-import math.bits
-
-struct Reversi {
+pub struct Reversi {
 	board  Board
 	player Player
 }
@@ -24,7 +22,7 @@ pub fn test() {
 	rev = rev.make_move(Move{2, 4})
 	rev = rev.make_move(Move{5, 5})
 	rev = rev.make_move(Move{5, 2})
-	rev = rev.make_move(Move{4, 5})
+	// rev = rev.make_move(Move{4, 5})
 
 	rev.pretty_print()
 	// print_bitboard(rev.board.occupied())
@@ -59,6 +57,10 @@ pub fn (rev Reversi) potential_moves_list() []Move {
 	}
 }
 
+pub fn (rev Reversi) get_bitboards() (u64, u64) {
+	return rev.board.white, rev.board.black
+}
+
 pub fn (rev Reversi) make_move(move Move) Reversi {
 	white, black := match rev.player {
 		.white {
@@ -70,7 +72,7 @@ pub fn (rev Reversi) make_move(move Move) Reversi {
 		}
 	}
 
-	return Reversi{Board{white, black}, opponent(rev.player)}
+	return Reversi{Board{white, black}, rev.player.opponent()}
 }
 
 pub fn (rev Reversi) can_move() bool {
@@ -80,16 +82,20 @@ pub fn (rev Reversi) can_move() bool {
 	}
 }
 
+pub fn (rev Reversi) turn() Player {
+	return rev.player
+}
+
 pub fn (rev Reversi) skip_turn() Reversi {
 	if rev.can_move() {
 		eprintln('It is illegal to skip a move having available moves!')
 	}
 
-	return Reversi{rev.board, opponent(rev.player)}
+	return Reversi{rev.board, rev.player.opponent()}
 }
 
 pub fn (rev Reversi) points() (int, int) {
-	return bits.ones_count_64(rev.board.white), bits.ones_count_64(rev.board.black)
+	return rev.board.points()
 }
 
 pub fn (rev Reversi) is_game_over() bool {
