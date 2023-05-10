@@ -1,6 +1,7 @@
 module reversi
 
 pub struct Reversi {
+pub:
 	board  Board
 	player Player
 }

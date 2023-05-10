@@ -26,12 +26,16 @@ fn board_start() Board {
 	return Board{reversi.bitboard_white_start, reversi.bitboard_black_start}
 }
 
-fn (board Board) occupied() Bitboard {
+pub fn (board Board) occupied() Bitboard {
 	return board.white | board.black
 }
 
-fn (board Board) empty() Bitboard {
+pub fn (board Board) empty() Bitboard {
 	return ~u64(board.occupied())
+}
+
+pub fn has(bitboard Bitboard, move Move) bool {
+	return bitboard & move_to_bitboard(move) != reversi.bitboard_empty
 }
 
 fn (board Board) points() (int, int) {
@@ -42,8 +46,12 @@ fn has_move(current Bitboard, opponent Bitboard) bool {
 	return potential_moves(current, opponent) != reversi.bitboard_empty
 }
 
-fn potential_moves(current Bitboard, opponent Bitboard) Bitboard {
+pub fn potential_moves(current Bitboard, opponent Bitboard) Bitboard {
 	return all_attack(current, opponent) & ~(current | opponent)
+}
+
+pub fn neighbours(current Bitboard) Bitboard {
+	return all_shift(current)
 }
 
 fn potential_moves_list(current Bitboard, opponent Bitboard) []Move {
@@ -63,7 +71,7 @@ fn board_after_move(move Move, current Bitboard, opponent Bitboard) (Bitboard, B
 	move_bitboard := move_to_bitboard(move)
 
 	if move_bitboard & potential_moves(current, opponent) == reversi.bitboard_empty {
-		panic('Invalid move!')
+		panic('Invalid move! - x:${move.x}, y:${move.y}')
 	}
 
 	flipped := all_sandwiched(move_bitboard, current, opponent)
@@ -74,32 +82,32 @@ fn board_after_move(move Move, current Bitboard, opponent Bitboard) (Bitboard, B
 // Basic functions
 
 [inline]
-fn xy_to_index(x int, y int) int {
+pub fn xy_to_index(x int, y int) int {
 	return 8 * y + x
 }
 
 [inline]
-fn move_to_index(move Move) int {
+pub fn move_to_index(move Move) int {
 	return xy_to_index(move.x, move.y)
 }
 
 [inline]
-fn index_to_move(index int) Move {
+pub fn index_to_move(index int) Move {
 	return Move{index % 8, index / 8}
 }
 
 [inline]
-fn index_to_bitboard(index int) Bitboard {
+pub fn index_to_bitboard(index int) Bitboard {
 	return u64(1) << index
 }
 
 [inline]
-fn xy_to_bitboard(x int, y int) Bitboard {
+pub fn xy_to_bitboard(x int, y int) Bitboard {
 	return index_to_bitboard(xy_to_index(x, y))
 }
 
 [inline]
-fn move_to_bitboard(move Move) Bitboard {
+pub fn move_to_bitboard(move Move) Bitboard {
 	return index_to_bitboard(move_to_index(move))
 }
 
