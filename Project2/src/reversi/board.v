@@ -18,8 +18,23 @@ struct Board {
 }
 
 fn board_from(str []string) Board {
-	// TODO
-	return Board{}
+	mut index := 0
+	mut white := reversi.bitboard_empty
+	mut black := reversi.bitboard_empty
+
+	for row in str {
+		for ch in row.trim_space().split('') {
+			bitboard := index_to_bitboard(index)
+			if ch == '1' {
+				white |= bitboard
+			} else if ch == '2' {
+				black |= bitboard
+			}
+
+			index += 1
+		}
+	}
+	return Board{white, black}
 }
 
 fn board_start() Board {

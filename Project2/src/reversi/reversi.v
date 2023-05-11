@@ -6,41 +6,16 @@ pub:
 	player Player
 }
 
-pub fn test() {
-	mut rev := clean_start()
-	rev.pretty_print()
-	// print_bitboard(rev.board.occupied())
-	// print_bitboard(rev.board.empty())
-	// print_bitboard(rev.white_potential_moves())
-	// print_bitboard(rev.black_potential_moves())
-
-	println('MOVE')
-	rev = rev.make_move(Move{2, 3})
-	rev = rev.make_move(Move{2, 2})
-	rev = rev.make_move(Move{2, 1})
-	rev = rev.make_move(Move{3, 5})
-	rev = rev.make_move(Move{2, 5})
-	rev = rev.make_move(Move{2, 4})
-	rev = rev.make_move(Move{5, 5})
-	rev = rev.make_move(Move{5, 2})
-	// rev = rev.make_move(Move{4, 5})
-
-	rev.pretty_print()
-	// print_bitboard(rev.board.occupied())
-	// print_bitboard(rev.board.empty())
-	// print_bitboard(rev.white_potential_moves())
-	print_bitboard(rev.potential_moves())
-	println(rev.potential_moves_list())
-
-	println(rev.points())
-	println(rev.is_game_over())
-}
-
 pub fn clean_start() Reversi {
 	return Reversi{board_start(), Player.black}
 }
 
 pub fn from(str []string, start_player Player) Reversi {
+	if str.len != 8 || str.any(it.trim_space().len != 8) {
+		eprintln('Incorrect input, returned clean start')
+		return clean_start()
+	}
+
 	return Reversi{board_from(str), start_player}
 }
 

@@ -6,72 +6,9 @@ import math
 
 const corners = u64(0x8100000000000081)
 
-const korman_weights_table = [
-	20,
-	-3,
-	11,
-	8,
-	8,
-	11,
-	-3,
-	20,
-	-3,
-	-7,
-	-4,
-	1,
-	1,
-	-4,
-	-7,
-	-3,
-	11,
-	-4,
-	2,
-	2,
-	2,
-	2,
-	-4,
-	11,
-	8,
-	1,
-	2,
-	-3,
-	-3,
-	2,
-	1,
-	8,
-	8,
-	1,
-	2,
-	-3,
-	-3,
-	2,
-	1,
-	8,
-	11,
-	-4,
-	2,
-	2,
-	2,
-	2,
-	-4,
-	11,
-	-3,
-	-7,
-	-4,
-	1,
-	1,
-	-4,
-	-7,
-	-3,
-	20,
-	-3,
-	11,
-	8,
-	8,
-	11,
-	-3,
-	20,
-]
+const korman_weights_table = [20, -3, 11, 8, 8, 11, -3, 20, -3, -7, -4, 1, 1, -4, -7, -3, 11, -4,
+	2, 2, 2, 2, -4, 11, 8, 1, 2, -3, -3, 2, 1, 8, 8, 1, 2, -3, -3, 2, 1, 8, 11, -4, 2, 2, 2, 2,
+	-4, 11, -3, -7, -4, 1, 1, -4, -7, -3, 20, -3, 11, 8, 8, 11, -3, 20]
 
 pub enum Heuristic {
 	coin_parity
@@ -132,8 +69,8 @@ fn evaluate_corner_closeness(game reversi.Reversi, player reversi.Player) f64 {
 
 fn evaluate_current_mobility(game reversi.Reversi, player reversi.Player) f64 {
 	white_bitboard, black_bitboard := game.get_bitboards()
-	white_moves := bits.ones_count_64(reversi.potential_moves(white_bitboard, black_bitboard))
-	black_moves := bits.ones_count_64(reversi.potential_moves(black_bitboard, white_bitboard))
+	white_moves := f64(bits.ones_count_64(reversi.potential_moves(white_bitboard, black_bitboard)))
+	black_moves := f64(bits.ones_count_64(reversi.potential_moves(black_bitboard, white_bitboard)))
 
 	max, min := get_max_min(white_moves, black_moves, player)
 
@@ -142,8 +79,8 @@ fn evaluate_current_mobility(game reversi.Reversi, player reversi.Player) f64 {
 
 fn evaluate_potential_mobility(game reversi.Reversi, player reversi.Player) f64 {
 	white_bitboard, black_bitboard := game.get_bitboards()
-	white_moves := bits.ones_count_64(reversi.neighbours(white_bitboard) & game.board.empty())
-	black_moves := bits.ones_count_64(reversi.neighbours(black_bitboard) & game.board.empty())
+	white_moves := f64(bits.ones_count_64(reversi.neighbours(white_bitboard) & game.board.empty()))
+	black_moves := f64(bits.ones_count_64(reversi.neighbours(black_bitboard) & game.board.empty()))
 
 	max, min := get_max_min(white_moves, black_moves, player)
 
@@ -154,8 +91,8 @@ fn evaluate_stability(game reversi.Reversi, player reversi.Player) f64 {
 	white_bitboard, black_bitboard := game.get_bitboards()
 	stable := calculate_stable(game)
 
-	white_stable := bits.ones_count_64(white_bitboard & stable)
-	black_stable := bits.ones_count_64(black_bitboard & stable)
+	white_stable := f64(bits.ones_count_64(white_bitboard & stable))
+	black_stable := f64(bits.ones_count_64(black_bitboard & stable))
 
 	max, min := get_max_min(white_stable, black_stable, player)
 
@@ -193,7 +130,7 @@ fn get_max_min[T](white T, black T, player reversi.Player) (T, T) {
 	}
 }
 
-fn ratio(max int, min int) f64 {
+fn ratio(max f64, min f64) f64 {
 	return if max > min {
 		f64(max) / f64(max + min)
 	} else if max < min {
