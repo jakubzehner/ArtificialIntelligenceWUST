@@ -17,7 +17,8 @@ fn main() {
 	// 	println(rev.turn())
 	// ai.test()
 
-	mut rev := reversi.clean_start()
-	ai.computer_vs_computer(rev, .alpha_beta, .alpha_beta, .coin_parity, .korman, 8, 6,
-		true)
+	// mut rev := reversi.clean_start()
+	// ai.computer_vs_computer(rev, .alpha_beta, .alpha_beta, .coin_parity, .korman, 5, 5,
+	// 	true)
+	ai.test()
 }

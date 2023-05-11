@@ -19,9 +19,11 @@ pub fn test() {
 	// rev.pretty_print()
 	// println(rev.turn())
 	// reversi.print_bitboard(rev.potential_moves())
+	game_after_5_random_moves().pretty_print()
 }
 
 pub fn tournament() {
+
 }
 
 pub fn computer_vs_computer(game reversi.Reversi, white_algorithm Algorithm, black_algorithm Algorithm, white_heuristic Heuristic, black_heuristic Heuristic, white_depth int, black_depth int, print_data bool) reversi.Result {
@@ -31,7 +33,10 @@ pub fn computer_vs_computer(game reversi.Reversi, white_algorithm Algorithm, bla
 	mut white_sum_visited := 0
 	mut black_sum_visited := 0
 
+	mut n := 1
 	for !rev.is_game_over() {
+		println('Move ${n}')
+		n += 1
 		if !rev.can_move() {
 			rev = rev.skip_turn()
 			continue
