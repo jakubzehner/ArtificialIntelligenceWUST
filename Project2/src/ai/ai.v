@@ -30,11 +30,11 @@ pub fn test_game() {
 		}
 
 		if rev.turn() == .white {
-			move, time, visited := find_move_alpha_beta(rev, .coin_parity, 1)
+			move, time, visited := find_move_alpha_beta(rev, .coin_parity, 5)
 			rev = rev.make_move(move)
 			println('white moved: ${move.x}, ${move.y}, time: ${time}, visited: ${visited}')
 		} else {
-			move, time, visited := find_move_alpha_beta(rev, .corner_closeness, 15)
+			move, time, visited := find_move_alpha_beta(rev, .korman, 10)
 			rev = rev.make_move(move)
 			println('black moved: ${move.x}, ${move.y}, time: ${time}, visited: ${visited}')
 		}

@@ -21,3 +21,7 @@ pub fn moves(bitboard Bitboard) []Move {
 
 	return result
 }
+
+pub fn (move Move) neighbours() []Move {
+	return moves(neighbours(move_to_bitboard(move)))
+}

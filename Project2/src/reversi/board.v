@@ -54,6 +54,16 @@ pub fn neighbours(current Bitboard) Bitboard {
 	return all_shift(current)
 }
 
+pub fn diagonals(move Move) []u64 {
+	move_bitboard := move_to_bitboard(move)
+	return [
+		n_shift(move_bitboard) | s_shift(move_bitboard),
+		ne_shift(move_bitboard) | sw_shift(move_bitboard),
+		e_shift(move_bitboard) | w_shift(move_bitboard),
+		se_shift(move_bitboard) | nw_shift(move_bitboard),
+	]
+}
+
 fn potential_moves_list(current Bitboard, opponent Bitboard) []Move {
 	moves := potential_moves(current, opponent)
 	mut result := []Move{}
@@ -158,14 +168,6 @@ fn all_attack(gen Bitboard, prop Bitboard) Bitboard {
 
 fn all_shift(gen Bitboard) Bitboard {
 	return s_shift(gen) | n_shift(gen) | e_shift(gen) | se_shift(gen) | ne_shift(gen) | w_shift(gen) | sw_shift(gen) | nw_shift(gen)
-}
-
-fn diag_shift(gen Bitboard) Bitboard {
-	return se_shift(gen) | ne_shift(gen) | sw_shift(gen) | nw_shift(gen)
-}
-
-fn card_shift(gen Bitboard) Bitboard {
-	return s_shift(gen) | n_shift(gen) | e_shift(gen) | w_shift(gen)
 }
 
 // Dumb7Fill
