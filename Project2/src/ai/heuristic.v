@@ -25,7 +25,7 @@ pub enum Heuristic {
 	corner_closeness
 	current_mobility
 	potential_mobility
-	stability
+	weights
 	korman
 }
 
@@ -36,7 +36,7 @@ fn (heuristic Heuristic) evaluate(game reversi.Reversi, player reversi.Player) f
 		.corner_closeness { evaluate_corner_closeness(game, player) }
 		.current_mobility { evaluate_current_mobility(game, player) }
 		.potential_mobility { evaluate_potential_mobility(game, player) }
-		.stability { evaluate_stability(game, player) }
+		.weights { evaluate_weights(game, player) }
 		.korman { evaluate_korman(game, player) }
 	}
 }
@@ -96,27 +96,14 @@ fn evaluate_potential_mobility(game reversi.Reversi, player reversi.Player) f64 
 	return ratio(max, min)
 }
 
-fn evaluate_stability(game reversi.Reversi, player reversi.Player) f64 {
-	white_bitboard, black_bitboard := game.get_bitboards()
-	stable := calculate_stable(game)
-
-	white_stable := f64(bits.ones_count_64(white_bitboard & stable))
-	black_stable := f64(bits.ones_count_64(black_bitboard & stable))
-
-	max, min := get_max_min(white_stable, black_stable, player)
-
-	return ratio(max, min)
-}
-
 fn evaluate_korman(game reversi.Reversi, player reversi.Player) f64 {
 	return (802.0 * evaluate_corner_owned(game, player) +
 		382.0 * evaluate_corner_closeness(game, player) +
 		79.0 * evaluate_current_mobility(game, player) + 10.0 * evaluate_coin_parity(game, player) +
-		74.0 * evaluate_potential_mobility(game, player) +
-		100.0 * evaluate_stability(game, player) + 26.0 * korman_weights(game, player)) / 1473.0
+		74.0 * evaluate_potential_mobility(game, player) + 26.0 * evaluate_weights(game, player)) / 1473.0
 }
 
-fn korman_weights(game reversi.Reversi, player reversi.Player) f64 {
+fn evaluate_weights(game reversi.Reversi, player reversi.Player) f64 {
 	white_board, black_board := game.get_bitboards()
 	mut max_bb, mut min_bb := get_max_min(white_board, black_board, player)
 
@@ -146,56 +133,5 @@ fn ratio(max f64, min f64) f64 {
 		f64(-min) / f64(max + min)
 	} else {
 		0.0
-	}
-}
-
-fn calculate_stable(game reversi.Reversi) u64 {
-	mut queue := []reversi.Move{}
-	mut visited := []reversi.Move{}
-	mut stable := u64(0)
-
-	corner := game.board.occupied() & ai.corners
-	stable |= corner
-	queue << reversi.moves(corner)
-
-	for queue.len != 0 {
-		source := queue.pop()
-		if visited.contains(source) {
-			continue
-		}
-		visited << source
-
-		for pos in source.neighbours() {
-			mut is_stable := true
-			for line in reversi.diagonals(pos) {
-				neighbours := reversi.moves(line)
-				if neighbours.len == 2 && neighbours.all(at(game, pos) != at(game, it)
-					|| reversi.has(stable, it)) {
-					is_stable = false
-				}
-			}
-			if is_stable {
-				stable |= reversi.move_to_bitboard(pos)
-				queue << pos
-			}
-		}
-	}
-
-	return stable
-}
-
-fn at(game reversi.Reversi, move reversi.Move) int {
-	white_board, black_board := game.get_bitboards()
-	white_has := reversi.has(white_board, move)
-	black_has := reversi.has(black_board, move)
-
-	return if !white_has && !black_has {
-		1
-	} else if white_has && !black_has {
-		2
-	} else if !white_has && black_has {
-		3
-	} else {
-		4
 	}
 }

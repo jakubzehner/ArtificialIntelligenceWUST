@@ -5,18 +5,18 @@ import term
 pub fn (rev Reversi) print() {
 	for line in board_to_string_array(rev.board) {
 		for ch in line {
-			print(ch)
+			eprint(ch)
 		}
-		print('\n')
+		eprint('\n')
 	}
 }
 
 pub fn (rev Reversi) pretty_print() {
 	for line in board_to_string_array(rev.board) {
 		for ch in line {
-			print(colorize_string(ch))
+			eprint(colorize_string(ch))
 		}
-		print('\n')
+		eprint('\n')
 	}
 }
 
@@ -25,12 +25,12 @@ pub fn print_bitboard(bitboard Bitboard) {
 		for col in 0 .. 8 {
 			mask := xy_to_bitboard(col, row)
 			if (bitboard & mask) != bitboard_empty {
-				print(term.bg_white(term.gray('1')))
+				eprint(term.bg_white(term.gray('1')))
 			} else {
-				print(term.bg_black(term.gray('0')))
+				eprint(term.bg_black(term.gray('0')))
 			}
 		}
-		print('\n')
+		eprint('\n')
 	}
 }
 
