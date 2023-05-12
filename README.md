@@ -18,3 +18,8 @@
   * [Assigment (EN)](./docs/Lab_1_EN.pdf)
   * [Description](./Project1/README.md)
   * [Code](./Project1/src/)
+
+* **Game tree** - Solving Reversi game tree with Minimax algorithm and Alpha-beta pruning algorithm using various heuristics.
+  * [Assigment (PL)](./docs/Lab_2_PL.pdf)
+  * [Description](./Project2/README.md)
+  * [Code](./Project2/src/)
