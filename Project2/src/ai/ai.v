@@ -10,7 +10,7 @@ pub enum Algorithm {
 
 pub fn tournament(algorithm Algorithm, depth int, time_limit time.Duration) {
 	heuristics := [Heuristic.coin_parity, .corner_owned, .current_mobility, .potential_mobility,
-		.corner_closeness, .weights, .korman]
+		.corner_closeness, .weights, .korman, .adapt]
 
 	mut results := [][]f64{len: heuristics.len, init: []f64{len: heuristics.len}}
 

@@ -7,9 +7,33 @@ import reversi
 import time
 
 fn main() {
-	step_mode()!
+	// step_mode()!
 
-	// ai.tournament(.alpha_beta, 5, time.second * 10)
+	// ai.computer_vs_computer(reversi.clean_start(), .minimax, .minimax, .coin_parity, .coin_parity,
+	// 	4, 4, true)
+	// ai.computer_vs_computer(reversi.clean_start(), .minimax, .minimax, .coin_parity, .coin_parity,
+	// 	5, 5, true)
+	// ai.computer_vs_computer(reversi.clean_start(), .minimax, .minimax, .coin_parity, .coin_parity,
+	// 	6, 6, true)
+	// ai.computer_vs_computer(reversi.clean_start(), .minimax, .minimax, .coin_parity, .coin_parity,
+	// 	7, 7, true)
+	// ai.computer_vs_computer(reversi.clean_start(), .minimax, .minimax, .coin_parity, .coin_parity,
+	// 	8, 8, true)
+	//
+	// ai.computer_vs_computer(reversi.clean_start(), .alpha_beta, .alpha_beta, .coin_parity,
+	// 	.coin_parity, 4, 4, true)
+	// ai.computer_vs_computer(reversi.clean_start(), .alpha_beta, .alpha_beta, .coin_parity,
+	// 	.coin_parity, 5, 5, true)
+	// ai.computer_vs_computer(reversi.clean_start(), .alpha_beta, .alpha_beta, .coin_parity,
+	// 	.coin_parity, 6, 6, true)
+	// ai.computer_vs_computer(reversi.clean_start(), .alpha_beta, .alpha_beta, .coin_parity,
+	// 	.coin_parity, 7, 7, true)
+	// ai.computer_vs_computer(reversi.clean_start(), .alpha_beta, .alpha_beta, .coin_parity,
+	// 	.coin_parity, 8, 8, true)
+
+	ai.tournament(.alpha_beta, 5, time.second * 30)
+
+	// ai.learn_adapt()
 }
 
 fn step_mode() ! {

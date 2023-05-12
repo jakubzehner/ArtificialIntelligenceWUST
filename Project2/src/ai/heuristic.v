@@ -3,8 +3,12 @@ module ai
 import reversi
 import math.bits
 import math
+import arrays
 
 const corners = u64(0x8100000000000081)
+
+const adapt_weights = [0.8101763794564967, 0.9760210281678889, 0.8802418412576802, 0.4429502369681,
+	0.12391636958238283]
 
 // vfmt off
 const korman_weights_table = [
@@ -27,6 +31,7 @@ pub enum Heuristic {
 	potential_mobility
 	weights
 	korman
+	adapt
 }
 
 fn (heuristic Heuristic) evaluate(game reversi.Reversi, player reversi.Player) f64 {
@@ -38,6 +43,7 @@ fn (heuristic Heuristic) evaluate(game reversi.Reversi, player reversi.Player) f
 		.potential_mobility { evaluate_potential_mobility(game, player) }
 		.weights { evaluate_weights(game, player) }
 		.korman { evaluate_korman(game, player) }
+		.adapt { evaluate_adapt(game, player) }
 	}
 }
 
@@ -100,7 +106,7 @@ fn evaluate_korman(game reversi.Reversi, player reversi.Player) f64 {
 	return (802.0 * evaluate_corner_owned(game, player) +
 		382.0 * evaluate_corner_closeness(game, player) +
 		79.0 * evaluate_current_mobility(game, player) + 10.0 * evaluate_coin_parity(game, player) +
-		74.0 * evaluate_potential_mobility(game, player) + 26.0 * evaluate_weights(game, player)) / 1473.0
+		74.0 * evaluate_potential_mobility(game, player) + 26.0 * evaluate_weights(game, player)) / 1373.0
 }
 
 fn evaluate_weights(game reversi.Reversi, player reversi.Player) f64 {
@@ -117,6 +123,16 @@ fn evaluate_weights(game reversi.Reversi, player reversi.Player) f64 {
 	}
 
 	return total / max
+}
+
+fn evaluate_adapt(game reversi.Reversi, player reversi.Player) f64 {
+	return (ai.adapt_weights[0] * evaluate_corner_owned(game, player) +
+		ai.adapt_weights[1] * evaluate_corner_closeness(game, player) +
+		ai.adapt_weights[2] * evaluate_current_mobility(game, player) +
+		ai.adapt_weights[3] * evaluate_coin_parity(game, player) +
+		ai.adapt_weights[4] * evaluate_potential_mobility(game, player)) / arrays.sum(ai.adapt_weights) or {
+		1
+	}
 }
 
 fn get_max_min[T](white T, black T, player reversi.Player) (T, T) {

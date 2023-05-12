@@ -57,5 +57,6 @@ fn name_to_shortcut(name Heuristic) string {
 		.potential_mobility { 'PM' }
 		.weights { 'WE' }
 		.korman { 'KO' }
+		.adapt { 'AD' }
 	}
 }
