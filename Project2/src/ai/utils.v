@@ -30,7 +30,7 @@ fn evaluate_game_over(game reversi.Reversi, player reversi.Player) f64 {
 	}
 }
 
-fn game_after_5_random_moves() reversi.Reversi {
+pub fn game_after_5_random_moves() reversi.Reversi {
 	mut rev := reversi.clean_start()
 	for _ in 0 .. 5 {
 		moves := rev.potential_moves_list()

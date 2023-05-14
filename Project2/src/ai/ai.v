@@ -60,10 +60,7 @@ pub fn computer_vs_computer(game reversi.Reversi, white_algorithm Algorithm, bla
 	mut white_sum_visited := 0
 	mut black_sum_visited := 0
 
-	// mut n := 1
 	for !rev.is_game_over() {
-		// println('Move ${n}')
-		// n += 1
 		if !rev.can_move() {
 			rev = rev.skip_turn()
 			continue

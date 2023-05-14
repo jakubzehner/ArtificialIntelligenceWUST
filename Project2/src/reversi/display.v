@@ -11,6 +11,14 @@ pub fn (rev Reversi) print() {
 	}
 }
 
+pub fn (rev Reversi) pretty_print_for_player() {
+	print(' y01234567')
+	
+
+	rev.pretty_print()
+}
+
+
 pub fn (rev Reversi) pretty_print() {
 	for line in board_to_string_array(rev.board) {
 		for ch in line {
