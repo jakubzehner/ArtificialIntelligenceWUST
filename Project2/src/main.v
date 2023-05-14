@@ -142,7 +142,7 @@ fn player_vs_computer(rev reversi.Reversi, player reversi.Player, algorithm ai.A
 			mut inp := ''
 			mut moves := []string{}
 			for inp.is_blank() || moves.len != 2 {
-				inp = os.input('')
+				inp = os.input('Your move: ')
 				moves = inp.split(',')
 			}
 			move := input_to_move(moves)
