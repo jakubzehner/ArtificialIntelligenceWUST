@@ -45,6 +45,7 @@ fn main() {
 		return
 	} else if mode == 'random' {
 		ai.game_after_5_random_moves().pretty_print()
+		return
 	}
 
 	game := match inp {
