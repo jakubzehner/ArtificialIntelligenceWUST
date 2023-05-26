@@ -7,6 +7,7 @@
 <br>
 
 ![V](https://img.shields.io/badge/V-%235D87BF.svg?style=for-the-badge&logo=V&logoColor=white)
+![Prolog](https://img.shields.io/badge/Prolog-%23000000.svg?style=for-the-badge&logoColor=white)
 <!-- ![Python](https://img.shields.io/badge/python-%233670A0?style=for-the-badge&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/pytorch-%23EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white) -->
 </div>
@@ -23,3 +24,8 @@
   * [Assigment (PL)](./docs/Lab_2_PL.pdf)
   * [Description](./Project2/README.md)
   * [Code](./Project2/src/)
+
+* **Knowledge base** - An absurd task in which we rewrite the manual of any device to Prolog.
+  * [Assigment (PL)](./docs/Lab_3_PL.pdf)
+  * [Description](./Project3/README.md)
+  * [Code](./Project3/src/)
