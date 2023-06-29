@@ -33,12 +33,12 @@
   * [Description](./Project3/README.md)
   * [Code](./Project3/src/)
 
-* **Machine learning** - Classification of the type of glass on the basis of elemental composition and refractive index. [UCI Glass Identification dataset](https://archive.ics.uci.edu/dataset/42/glass+identification).
+* **Machine learning** - Classification of the type of glass on the basis of elemental composition and refractive index.
   * [Assigment (PL)](./docs/Lab_4_PL.pdf)
   * [Description](./Project4/README.md)
   * [Code](./Project4/glassML.ipynb)
 
-* **Deep learning** - A neural network that predicts the evaluation of the ridiculousness of jokes. [Jester dataset](https://eigentaste.berkeley.edu/dataset/).
+* **Deep learning** - A neural network that predicts the evaluation of the ridiculousness of jokes.
   * [Assigment (PL)](./docs/Lab_5_PL.pdf)
   * [Description](./Project5/README.md)
   * [Code](./Project5/jokes_deep_learning.ipynb)
