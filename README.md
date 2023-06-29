@@ -8,8 +8,11 @@
 
 ![V](https://img.shields.io/badge/V-%235D87BF.svg?style=for-the-badge&logo=V&logoColor=white)
 ![Prolog](https://img.shields.io/badge/Prolog-%23000000.svg?style=for-the-badge&logoColor=white)
-<!-- ![Python](https://img.shields.io/badge/python-%233670A0?style=for-the-badge&logo=python&logoColor=white)
-![PyTorch](https://img.shields.io/badge/pytorch-%23EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white) -->
+![Python](https://img.shields.io/badge/python-%233670A0?style=for-the-badge&logo=python&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit_learn-%23F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
+![jupyter](https://img.shields.io/badge/jupyter-%23F37626?style=for-the-badge&logo=jupyter&logoColor=white)
+
+
 </div>
 
 ## Mini projects:
@@ -29,3 +32,13 @@
   * [Assigment (PL)](./docs/Lab_3_PL.pdf)
   * [Description](./Project3/README.md)
   * [Code](./Project3/src/)
+
+* **Machine learning** - Classification of the type of glass on the basis of elemental composition and refractive index. [UCI Glass Identification dataset](https://archive.ics.uci.edu/dataset/42/glass+identification).
+  * [Assigment (PL)](./docs/Lab_4_PL.pdf)
+  * [Description](./Project4/README.md)
+  * [Code](./Project4/glassML.ipynb)
+
+* **Deep learning** - A neural network that predicts the evaluation of the ridiculousness of jokes. [Jester dataset](https://eigentaste.berkeley.edu/dataset/).
+  * [Assigment (PL)](./docs/Lab_5_PL.pdf)
+  * [Description](./Project5/README.md)
+  * [Code](./Project5/jokes_deep_learning.ipynb)
