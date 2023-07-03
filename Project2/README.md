@@ -13,7 +13,8 @@ Heuristic used in the project are:
 * **adapt** - trained by genetic algorithm heuristic build with first 5 heuristics
 
 ## Requirements
-* **V** 0.3.3
+* **V** 0.3.3  
+*The program may not work properly with newer versions, as there were **breaking changes in 0.4***
 
 ## Building
 In root directory run:

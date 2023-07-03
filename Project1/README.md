@@ -6,7 +6,8 @@ Finding the shortest path was implemented using two algorithms - Dijkstra and A*
 Finding the shortest cycle was implemented using Tabu Search. I used the Dijkstra algorithm implemented earlier to find the shortest paths between two stops.
 
 ## Requirements
-* **V** 0.3.3
+* **V** 0.3.3  
+*The program may not work properly with newer versions, as there were **breaking changes in 0.4***
 
 ## Building
 In root directory run:
